@@ -18,6 +18,8 @@
 #include <ZumoBuzzer.h>
 #include <Pushbutton.h>
 
+#include "HelperMacros.h"
+
 
 ZumoBuzzer buzzer;
 ZumoReflectanceSensorArray reflectanceSensors;
@@ -31,9 +33,9 @@ const int RUN_SPEED = MAX_SPEED / 2;
 
 const int NUM_SENSORS = 6;
 
-const int PRINT_MOD = 120;
+const int PRINT_MOD = 5;
 
-bool run = true;
+bool runMotors = true;
 
 bool runReflectanceArray = true;
 
@@ -51,8 +53,6 @@ void setup()
 
 	// Play a little welcome song
 	buzzer.play(">g32>>c32");
-	buzzer.play(">g32>>c32");
-
 
 	// Initialize the reflectance sensors module
 	reflectanceSensors.init();
@@ -84,25 +84,25 @@ void setup()
 
 	// Turn off LED to indicate we are through with calibration
 	digitalWrite(13, LOW);
-	buzzer.play(">g32>>c32");
-
-	// Wait for the user button to be pressed and released
-	button.waitForButton();
 
 	// Play music and wait for it to finish before we start driving.
 	buzzer.play("L16 cdegreg4");
 
 	//Write a message to the console
-	Serial.println("Starting....");
+	SPRINT("Ready to start...");
+	SPRINT("Press P to begin");
+
+	runMotors = false;
+	printCounter = 0;
 }
 
 //Main Loop
 void loop()
 {
-	if (run == true)
+	if (runMotors == true)
 	{
 		//Read input from user through Serial connection
-		readInput();
+		ReadInput();
 
 		if (runReflectanceArray)
 		{
@@ -111,7 +111,8 @@ void loop()
 	}
 	else
 	{
-		readStartStopInput();
+		SetMotorSpeeds(0, 0);
+		ReadStartStopInput();
 	}
 }
 
@@ -119,13 +120,7 @@ void handleReflectanceArray()
 {
 	reflectanceSensors.readLine(sensorArray);
 
-	//    if(printCounter > PRINT_MOD)
-	//    {
-	//      displayArrayData(); 
-	//      printCounter = 0;  
-	//    }
-
-	//    printCounter++;
+	DisplayArrayData();
 
 	//Check to see if we've hit a wall
 	int wallHitCounter = 0;
@@ -133,7 +128,7 @@ void handleReflectanceArray()
 	for (int i = 0; i < NUM_SENSORS; i++)
 	{
 		//If they have a slight bit of darkness we will count that as a hit
-		if (sensorArray[i] > 200)
+		if (sensorArray[i] > 600)
 		{
 			//Increment counter
 			wallHitCounter++;
@@ -146,7 +141,7 @@ void handleReflectanceArray()
 		//We've hit a wall
 		runReflectanceArray = false;
 		motors.setSpeeds(0, 0);
-		Serial.println("Wall hit ! ");
+		SPRINT("Wall hit!");
 
 		return;
 	}
@@ -154,23 +149,25 @@ void handleReflectanceArray()
 	//If we detect darkness on the left two sensors then turn right
 	//Need to make these values variables for easier calibration
 	//Maybe use calibrated sensor value instead?
-	if (sensorArray[0] > 500 || sensorArray[1] > 250)
+
+	if (sensorArray[0] > 900 || sensorArray[1] > 900)
 	{
 		//Turn right away from wall
-		Turn(1, 50);
+		/*SPRINT("Wall hit on left, turning right!");*/
+		Turn(1, 50, true);
 	}
-
 	//If we detect darkness on the right two sensors then turn left
-	if (sensorArray[NUM_SENSORS] > 500 || sensorArray[NUM_SENSORS - 1] > 250)
+	else if (sensorArray[NUM_SENSORS] > 900 || sensorArray[NUM_SENSORS - 1] > 900)
 	{
 		//Turn left away from wall
-		Turn(-1, 50);
+		/*SPRINT("Wall hit on right, turning left!");*/
+		Turn(-1, 50, true);
 	}
 }
 
-void readInput()
+void ReadInput()
 {
-	if (Serial.available()>0) {
+	if (Serial.available() > 0) {
 		int input = Serial.read();
 		switch (input)
 		{
@@ -192,21 +189,20 @@ void readInput()
 
 		case 'A':
 		case 'a':
-			Turn(-1, 50);
+			Turn(-1, 50, false);
 			break;
 		case 'D':
 		case 'd':
-			Turn(1, 50);
+			Turn(1, 50, false);
 			break;
 		case 'C':
 		case 'c':
-			runReflectanceArray = true;
-			SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
+			runReflectanceArray = !runReflectanceArray;
 			break;
 
 		case 'p':
 		case 'P':
-			run = !run;
+			runMotors = !runMotors;
 			break;
 
 		default:
@@ -215,15 +211,16 @@ void readInput()
 	}
 }
 
-void readStartStopInput()
+void ReadStartStopInput()
 {
-	if (Serial.available()>0) {
+	if (Serial.available() > 0)
+	{
 		int input = Serial.read();
 		switch (input)
 		{
 		case 'p':
 		case 'P':
-			run = !run;
+			runMotors = !runMotors;
 			break;
 		}
 	}
@@ -231,8 +228,11 @@ void readStartStopInput()
 
 
 //A function to handle turning the Zumo left or right
-//Parameters : Pass it -1 for left, 1 for right. How long to turn for
-void Turn(int direction, int delayMs)
+//Parameters : 
+//1.Pass it -1 for left, 1 for right. 
+//2.How long to turn for. 
+//3.Whether to carry on straight after turn.
+void Turn(int direction, int delayMs, bool carryOn)
 {
 	switch (direction)
 	{
@@ -247,11 +247,21 @@ void Turn(int direction, int delayMs)
 
 
 	delay(delayMs);
-	//motors.setSpeeds(RUN_SPEED, RUN_SPEED);
+
+	if (carryOn)
+	{
+		motors.setSpeeds(RUN_SPEED, RUN_SPEED);
+	}
+	else
+	{
+		motors.setSpeeds(0, 0);
+	}
 }
 
 //Function to set speeds of both motors independantly
-//Parameters : Left motor speed , Right motor speed
+//Parameters :
+//1.Left motor speed
+//2.Right motor speed
 void SetMotorSpeeds(int pLeftSpeed, int pRightSpeed)
 {
 	ClampMotorSpeed(pLeftSpeed);
@@ -263,7 +273,8 @@ void SetMotorSpeeds(int pLeftSpeed, int pRightSpeed)
 }
 
 //Function to set left motor speed only
-//Parameters: Left motor speed
+//Parameters: 
+//1.Left motor speed
 void SetLeftMotorSpeed(int pLeftSpeed)
 {
 	ClampMotorSpeed(pLeftSpeed);
@@ -273,7 +284,8 @@ void SetLeftMotorSpeed(int pLeftSpeed)
 }
 
 //Function to set right motor speed only
-//Parameters: Right motor speed
+//Parameters: 
+//2.Right motor speed
 void SetRightMotorSpeed(int pRightSpeed)
 {
 	ClampMotorSpeed(pRightSpeed);
@@ -297,8 +309,19 @@ void ClampMotorSpeed(int& pSpeed)
 }
 
 //Print out the sensor array data all in one line with tabs in between
-void displayArrayData()
+void DisplayArrayData()
 {
+	printCounter++;
+
+	if (printCounter > PRINT_MOD)
+	{
+		printCounter = 0;
+	}
+	else
+	{
+		return;
+	}
+
 	for (int i = 0; i < NUM_SENSORS; i++)
 	{
 		Serial.print(sensorArray[i]);
