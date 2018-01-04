@@ -40,8 +40,21 @@ int printCounter = 0;
 
 unsigned int sensorArray[NUM_SENSORS];
 
+enum ZUMO_STATES
+{
+	INIT,
+	CORRIDOR,
+	ROOM,
+	JUNTION,
+	RETURN
+};
+
+ZUMO_STATES m_eZumoState;
+
 void setup()
 {
+	m_eZumoState = INIT;
+
 	//Begin Serial communication
 	Serial.begin(9600);
 
@@ -95,28 +108,41 @@ void loop()
 {
 	if (runMotors == true)
 	{
+
 		//Read input from user through Serial connection
 		ReadInput();
 
-		if (runReflectanceArray)
+		switch (m_eZumoState)
 		{
-			handleReflectanceArray();
+		case INIT:
+			SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
+			m_eZumoState = CORRIDOR;
+			SPRINT("Changing to CORRIDOR state");
+			break;
+		case CORRIDOR:
+			if (runReflectanceArray)
+			{
+				handleReflectanceArray();
+			}
+			break;
 		}
 	}
 	else
 	{
 		SetMotorSpeeds(0, 0);
 		ReadStartStopInput();
-	}
+	}		
 }
 
 void handleReflectanceArray()
 {
+	//Get new data from reflectance sensors and put in array
 	reflectanceSensors.readLine(sensorArray);
 
 #if DEBUG
 	DisplayArrayData();
 #endif
+
 	//Check to see if we've hit a wall
 	int wallHitCounter = 0;
 	//Loop through all the sensors
@@ -148,14 +174,14 @@ void handleReflectanceArray()
 	if (sensorArray[0] > 900 || sensorArray[1] > 900)
 	{
 		//Turn right away from wall
-		/*SPRINT("Wall hit on left, turning right!");*/
+		SPRINT("Wall hit on left, turning right!");
 		Turn(1, 50, true);
 	}
 	//If we detect darkness on the right two sensors then turn left
 	else if (sensorArray[NUM_SENSORS] > 900 || sensorArray[NUM_SENSORS - 1] > 900)
 	{
 		//Turn left away from wall
-		/*SPRINT("Wall hit on right, turning left!");*/
+		SPRINT("Wall hit on right, turning left!");
 		Turn(-1, 50, true);
 	}
 }
@@ -232,11 +258,11 @@ void Turn(int direction, int delayMs, bool carryOn)
 	switch (direction)
 	{
 	case -1:
-		motors.setSpeeds(-MAX_SPEED, MAX_SPEED);
+		SetMotorSpeeds(-MAX_SPEED, MAX_SPEED);
 		break;
 
 	case 1:
-		motors.setSpeeds(MAX_SPEED, -MAX_SPEED);
+		SetMotorSpeeds(MAX_SPEED, -MAX_SPEED);
 		break;
 	}
 
@@ -245,11 +271,11 @@ void Turn(int direction, int delayMs, bool carryOn)
 
 	if (carryOn)
 	{
-		motors.setSpeeds(RUN_SPEED, RUN_SPEED);
+		SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
 	}
 	else
 	{
-		motors.setSpeeds(0, 0);
+		SetMotorSpeeds(0, 0);
 	}
 }
 
@@ -308,7 +334,7 @@ void DisplayArrayData()
 {
 	printCounter++;
 
-	if (printCounter > PRINT_MOD)
+	if (printCounter > PRINT_FRAME_COUNT)
 	{
 		printCounter = 0;
 	}
