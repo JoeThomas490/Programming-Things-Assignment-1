@@ -120,15 +120,16 @@ void handleReflectanceArray()
 {
 	reflectanceSensors.readLine(sensorArray);
 
+#if DEBUG
 	DisplayArrayData();
-
+#endif
 	//Check to see if we've hit a wall
 	int wallHitCounter = 0;
 	//Loop through all the sensors
 	for (int i = 0; i < NUM_SENSORS; i++)
 	{
 		//If they have a slight bit of darkness we will count that as a hit
-		if (sensorArray[i] > 600)
+		if (sensorArray[i] > 100)
 		{
 			//Increment counter
 			wallHitCounter++;
