@@ -51,6 +51,8 @@ void setup()
 
 	// Play a little welcome song
 	buzzer.play(">g32>>c32");
+	buzzer.play(">g32>>c32");
+
 
 	// Initialize the reflectance sensors module
 	reflectanceSensors.init();
@@ -174,23 +176,17 @@ void readInput()
 		{
 		case 'W':
 		case 'w':
-			motors.setSpeeds(RUN_SPEED, RUN_SPEED);
-			leftMotorSpeed = RUN_SPEED;
-			rightMotorSpeed = RUN_SPEED;
+			SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
 			break;
 		case 'S':
 		case 's':
 			if (leftMotorSpeed != 0 && rightMotorSpeed != 0)
 			{
-				motors.setSpeeds(0, 0);
-				leftMotorSpeed = 0;
-				rightMotorSpeed = 0;
+				SetMotorSpeeds(0, 0);
 			}
 			else
 			{
-				motors.setSpeeds(-RUN_SPEED, -RUN_SPEED);
-				leftMotorSpeed = -RUN_SPEED;
-				rightMotorSpeed = -RUN_SPEED;
+				SetMotorSpeeds(-RUN_SPEED, -RUN_SPEED);
 			}
 			break;
 
@@ -205,7 +201,15 @@ void readInput()
 		case 'C':
 		case 'c':
 			runReflectanceArray = true;
-			motors.setSpeeds(RUN_SPEED, RUN_SPEED);
+			SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
+			break;
+
+		case 'p':
+		case 'P':
+			run = !run;
+			break;
+
+		default:
 			break;
 		}
 	}
@@ -228,7 +232,6 @@ void readStartStopInput()
 
 //A function to handle turning the Zumo left or right
 //Parameters : Pass it -1 for left, 1 for right. How long to turn for
-//Sets motors back to forward after turn
 void Turn(int direction, int delayMs)
 {
 	switch (direction)
@@ -244,9 +247,54 @@ void Turn(int direction, int delayMs)
 
 
 	delay(delayMs);
-	motors.setSpeeds(RUN_SPEED, RUN_SPEED);
+	//motors.setSpeeds(RUN_SPEED, RUN_SPEED);
 }
 
+//Function to set speeds of both motors independantly
+//Parameters : Left motor speed , Right motor speed
+void SetMotorSpeeds(int pLeftSpeed, int pRightSpeed)
+{
+	ClampMotorSpeed(pLeftSpeed);
+	ClampMotorSpeed(pRightSpeed);
+
+	motors.setSpeeds(pLeftSpeed, pRightSpeed);
+	leftMotorSpeed = pLeftSpeed;
+	rightMotorSpeed = pRightSpeed;
+}
+
+//Function to set left motor speed only
+//Parameters: Left motor speed
+void SetLeftMotorSpeed(int pLeftSpeed)
+{
+	ClampMotorSpeed(pLeftSpeed);
+
+	motors.setSpeeds(pLeftSpeed, rightMotorSpeed);
+	leftMotorSpeed = pLeftSpeed;
+}
+
+//Function to set right motor speed only
+//Parameters: Right motor speed
+void SetRightMotorSpeed(int pRightSpeed)
+{
+	ClampMotorSpeed(pRightSpeed);
+
+	motors.setSpeeds(leftMotorSpeed, pRightSpeed);
+	rightMotorSpeed = pRightSpeed;
+}
+
+//Function to clamp any motor speed between it's maximum value (MAX_SPEED)
+//Paramaters : Reference to speed being clamped
+void ClampMotorSpeed(int& pSpeed)
+{
+	if (pSpeed > MAX_SPEED)
+	{
+		pSpeed = MAX_SPEED;
+	}
+	else if (pSpeed < -MAX_SPEED)
+	{
+		pSpeed = -MAX_SPEED;
+	}
+}
 
 //Print out the sensor array data all in one line with tabs in between
 void displayArrayData()
