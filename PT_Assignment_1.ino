@@ -19,6 +19,7 @@
 #include <Pushbutton.h>
 
 #include "HelperMacros.h"
+#include "Constants.h"
 
 
 ZumoBuzzer buzzer;
@@ -26,14 +27,7 @@ ZumoReflectanceSensorArray reflectanceSensors;
 ZumoMotors motors;
 Pushbutton button(ZUMO_BUTTON);
 
-// This is the maximum speed the motors will be allowed to turn.
-// (400 lets the motors go at top speed; decrease to impose a speed limit)
-const int MAX_SPEED = 250;
-const int RUN_SPEED = MAX_SPEED / 2;
 
-const int NUM_SENSORS = 6;
-
-const int PRINT_MOD = 5;
 
 bool runMotors = true;
 
