@@ -11,23 +11,35 @@
 
 #include "HelperMacros.h"
 
-//ascii values 32 - 127 , 95 values
+//*********************************************************************************************
+// File:			InputManager.h
+// Description:		Handles input for all states. Stores key presses in an array that gets 
+//					cleared every frame. Other classes can query it by using IsKeyPressed()
+// Notes:			
+// Todo:			-Add a key held event?
+//*********************************************************************************************
+
+//ASCII values ranging from 32 - 127 , 95 values
 const int ASCII_RANGE = 95;
 
 class InputManagerClass
 {
 public:
 
+	//Initialise the class
 	static void init();
 
+	//Handles the actual input (Serial.read) and puts inside 
+	//input queue
 	static void HandleInput();
 
+	//Resets the whole queue to false
 	static void ClearQueue();
 
+	//Main query function to see whether a key is currently pressed
+	//Parameters:
+	//1.Character to check is being pressed
 	static bool IsKeyPressed(const char key);
-
-protected:
-
 };
 
 extern InputManagerClass InputManager;

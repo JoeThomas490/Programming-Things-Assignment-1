@@ -122,11 +122,6 @@ void loop()
 			//Read input from user through Serial connection (xBee)
 			//ReadInput();
 			InputManagerClass::HandleInput();
-
-			if (InputManagerClass::IsKeyPressed('y'))
-			{
-				SPRINT("INPUT WORKING!");
-			}
 			break;
 		case CORRIDOR:
 			//Read input from user through Serial connection (xBee)
