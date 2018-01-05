@@ -92,9 +92,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Corridor.h" />
     <ClInclude Include="HelperMacros.h" />
-    <ClInclude Include="Include\Utils\HelperMacros.h" />
+    <ClInclude Include="Room.h" />
     <ClInclude Include="__vm\.PT_Assignment_1.vsarduino.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Corridor.cpp" />
+    <ClCompile Include="Room.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

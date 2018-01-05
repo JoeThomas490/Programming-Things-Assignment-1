@@ -14,8 +14,8 @@ ZumoMotors motors;
 Pushbutton button(ZUMO_BUTTON);
 
 bool runMotors = true;
-
 bool runReflectanceArray = true;
+
 
 int leftMotorSpeed = 0;
 int rightMotorSpeed = 0;
@@ -23,6 +23,12 @@ int rightMotorSpeed = 0;
 int printCounter = 0;
 
 unsigned int sensorArray[NUM_SENSORS];
+
+enum DIRECTION
+{
+	LEFT,
+	RIGHT
+};
 
 //Different behaviour states for robot
 enum ZUMO_STATES
@@ -165,9 +171,12 @@ void HandleReflectanceArray()
 	if (wallHitCounter == NUM_SENSORS - 1)
 	{
 		//We've hit a wall
-		runReflectanceArray = false;
+		//Stop moving and tell user
 		motors.setSpeeds(0, 0);
 		SPRINT("Wall hit!");
+
+		//Switch to USER state
+		m_eZumoState = ZUMO_STATES::USER;
 
 		return;
 	}
@@ -180,14 +189,14 @@ void HandleReflectanceArray()
 	{
 		//Turn right away from wall
 		SPRINT("Wall hit on left, turning right!");
-		Turn(1, 50, true);
+		Turn(DIRECTION::RIGHT, 50, true);
 	}
 	//If we detect darkness on the right two sensors then turn left
 	else if (sensorArray[NUM_SENSORS] > 900 || sensorArray[NUM_SENSORS - 1] > 900)
 	{
 		//Turn left away from wall
 		SPRINT("Wall hit on right, turning left!");
-		Turn(-1, 50, true);
+		Turn(DIRECTION::LEFT, 50, true);
 	}
 }
 
@@ -202,13 +211,11 @@ void ReadInput()
 	if (Serial.available() > 0)
 	{
 		int input = Serial.read();
-		switch (input)
+		switch (tolower(input))
 		{
-		case 'W':
 		case 'w':
 			SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
 			break;
-		case 'S':
 		case 's':
 			if (leftMotorSpeed != 0 && rightMotorSpeed != 0)
 			{
@@ -220,22 +227,27 @@ void ReadInput()
 			}
 			break;
 
-		case 'A':
 		case 'a':
-			Turn(-1, 50, false);
+			Turn(DIRECTION::LEFT, 50, false);
 			break;
-		case 'D':
 		case 'd':
-			Turn(1, 50, false);
+			Turn(DIRECTION::RIGHT, 50, false);
 			break;
-		case 'C':
 		case 'c':
-			runReflectanceArray = !runReflectanceArray;
+			SPRINT("Changing to CORRIDOR state");
+			m_eZumoState = ZUMO_STATES::CORRIDOR;
+			break;
+		case 'u':
+			SPRINT("Changing to USER state");
+			m_eZumoState = ZUMO_STATES::USER;
+			SetMotorSpeeds(0, 0);
 			break;
 
-		case 'p':
-		case 'P':
+		case '1':
 			runMotors = !runMotors;
+			break;
+		case '2':
+			runReflectanceArray = !runReflectanceArray;
 			break;
 
 		default:
@@ -271,15 +283,15 @@ void ReadStartStopInput()
 //1.Pass it -1 for left, 1 for right. 
 //2.How long to turn for. 
 //3.Whether to carry on straight after turn.
-void Turn(int direction, int delayMs, bool carryOn)
+void Turn(DIRECTION direction, int delayMs, bool carryOn)
 {
 	switch (direction)
 	{
-	case -1:
+	case DIRECTION::LEFT:
 		SetMotorSpeeds(-MAX_SPEED, MAX_SPEED);
 		break;
 
-	case 1:
+	case DIRECTION::RIGHT:
 		SetMotorSpeeds(MAX_SPEED, -MAX_SPEED);
 		break;
 	}
