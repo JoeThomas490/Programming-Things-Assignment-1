@@ -1,17 +1,3 @@
-/*
-* Demo line-following code for the Pololu Zumo Robot
-*
-* This code will follow a black line on a white background, using a
-* PID-based algorithm.  It works decently on courses with smooth, 6"
-* radius curves and has been tested with Zumos using 30:1 HP and
-* 75:1 HP motors.  Modifications might be required for it to work
-* well on different courses or with different motors.
-*
-* http://www.pololu.com/catalog/product/2506
-* http://www.pololu.com
-* http://forum.pololu.com
-*/
-
 #include <QTRSensors.h>
 #include <ZumoReflectanceSensorArray.h>
 #include <ZumoMotors.h>
@@ -27,8 +13,6 @@ ZumoReflectanceSensorArray reflectanceSensors;
 ZumoMotors motors;
 Pushbutton button(ZUMO_BUTTON);
 
-
-
 bool runMotors = true;
 
 bool runReflectanceArray = true;
@@ -40,9 +24,11 @@ int printCounter = 0;
 
 unsigned int sensorArray[NUM_SENSORS];
 
+//Different behaviour states for robot
 enum ZUMO_STATES
 {
 	INIT,
+	USER,
 	CORRIDOR,
 	ROOM,
 	JUNTION,
@@ -51,8 +37,17 @@ enum ZUMO_STATES
 
 ZUMO_STATES m_eZumoState;
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//																										//
+//									ARDUINO FUNCTIONS													//
+//																										//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 void setup()
 {
+	//Set start state as init state
 	m_eZumoState = INIT;
 
 	//Begin Serial communication
@@ -108,10 +103,6 @@ void loop()
 {
 	if (runMotors == true)
 	{
-
-		//Read input from user through Serial connection
-		ReadInput();
-
 		switch (m_eZumoState)
 		{
 		case INIT:
@@ -119,10 +110,18 @@ void loop()
 			m_eZumoState = CORRIDOR;
 			SPRINT("Changing to CORRIDOR state");
 			break;
+		case USER:
+			//Read input from user through Serial connection (xBee)
+			ReadInput();
+			break;
 		case CORRIDOR:
+			//Read input from user through Serial connection (xBee)
+			ReadInput();
+
+			//If the reflectance array is allowed to run
 			if (runReflectanceArray)
 			{
-				handleReflectanceArray();
+				HandleReflectanceArray();
 			}
 			break;
 		}
@@ -131,10 +130,16 @@ void loop()
 	{
 		SetMotorSpeeds(0, 0);
 		ReadStartStopInput();
-	}		
+	}
 }
 
-void handleReflectanceArray()
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//																										//
+//									REFLECTANCE ARRAY													//
+//																										//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void HandleReflectanceArray()
 {
 	//Get new data from reflectance sensors and put in array
 	reflectanceSensors.readLine(sensorArray);
@@ -186,9 +191,16 @@ void handleReflectanceArray()
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//																										//
+//									INPUT																//
+//																										//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ReadInput()
 {
-	if (Serial.available() > 0) {
+	if (Serial.available() > 0)
+	{
 		int input = Serial.read();
 		switch (input)
 		{
@@ -246,6 +258,12 @@ void ReadStartStopInput()
 		}
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//																										//
+//									MOTOR FUNCTIONS														//
+//																										//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 //A function to handle turning the Zumo left or right
@@ -328,6 +346,12 @@ void ClampMotorSpeed(int& pSpeed)
 		pSpeed = -MAX_SPEED;
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//																										//
+//									DEBUG HELPERS														//
+//																										//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Print out the sensor array data all in one line with tabs in between
 void DisplayArrayData()

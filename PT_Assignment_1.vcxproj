@@ -91,6 +91,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="HelperMacros.h" />
     <ClInclude Include="Include\Utils\HelperMacros.h" />
     <ClInclude Include="__vm\.PT_Assignment_1.vsarduino.h" />
   </ItemGroup>
