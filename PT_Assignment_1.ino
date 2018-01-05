@@ -1,3 +1,4 @@
+#include "InputManager.h"
 #include "Motors.h"
 #include <QTRSensors.h>
 #include <ZumoReflectanceSensorArray.h>
@@ -14,7 +15,6 @@ Pushbutton button(ZUMO_BUTTON);
 
 bool runMotors = true;
 bool runReflectanceArray = true;
-
 
 int printCounter = 0;
 
@@ -49,6 +49,8 @@ void setup()
 	{
 		sensorArray[i] = 0;
 	}
+
+	InputManagerClass::init();
 
 	//Set start state as init state
 	m_eZumoState = INIT;
@@ -110,16 +112,21 @@ void loop()
 		switch (m_eZumoState)
 		{
 		case INIT:
-			m_gMotors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
-			m_eZumoState = CORRIDOR;
-
+			m_gMotors.SetMotorSpeeds(0, 0);
+			m_eZumoState = USER;
 #if PRINT_STATE_CHANGES
-			SPRINT("Changing to CORRIDOR state");
+			SPRINT("Changing to USER state");
 #endif
 			break;
 		case USER:
 			//Read input from user through Serial connection (xBee)
-			ReadInput();
+			//ReadInput();
+			InputManagerClass::HandleInput();
+
+			if (InputManagerClass::IsKeyPressed('y'))
+			{
+				SPRINT("INPUT WORKING!");
+			}
 			break;
 		case CORRIDOR:
 			//Read input from user through Serial connection (xBee)

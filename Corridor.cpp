@@ -1,7 +1,5 @@
 #include "Corridor.h"
 
-
-
 Corridor::Corridor()
 {
 }
