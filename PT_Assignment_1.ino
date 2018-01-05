@@ -1,5 +1,10 @@
+
+#include "InitZState.h"
+#include "UserZState.h"
+
 #include "InputManager.h"
 #include "Motors.h"
+
 #include <QTRSensors.h>
 #include <ZumoReflectanceSensorArray.h>
 #include <ZumoBuzzer.h>
@@ -35,6 +40,9 @@ enum ZUMO_STATES
 ZUMO_STATES m_eZumoState;
 
 
+ZState** m_aStateList;
+ZState* m_pCurrentState;
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //																										//
 //									ARDUINO FUNCTIONS													//
@@ -44,6 +52,14 @@ ZUMO_STATES m_eZumoState;
 
 void setup()
 {
+	m_aStateList = new ZState*[2];
+
+	InitZState* initState = new InitZState();
+	UserZState* userState = new UserZState();
+
+	AddState(initState);
+	AddState(userState);
+
 	//Initialise sensor array to 0
 	for (int i = 0; i < NUM_SENSORS; i++)
 	{
@@ -98,48 +114,63 @@ void setup()
 
 	//Write a message to the console
 	SPRINT("Ready to start...");
-	SPRINT("Press P to begin");
 
 	runMotors = false;
 	printCounter = 0;
+
+	ChangeState(0);
 }
 
 //Main Loop
 void loop()
 {
-	if (runMotors == true)
-	{
-		switch (m_eZumoState)
-		{
-		case INIT:
-			m_gMotors.SetMotorSpeeds(0, 0);
-			m_eZumoState = USER;
-#if PRINT_STATE_CHANGES
-			SPRINT("Changing to USER state");
-#endif
-			break;
-		case USER:
-			//Read input from user through Serial connection (xBee)
-			//ReadInput();
-			InputManagerClass::HandleInput();
-			break;
-		case CORRIDOR:
-			//Read input from user through Serial connection (xBee)
-			ReadInput();
+	InputManagerClass::HandleInput();
 
-			//If the reflectance array is allowed to run
-			if (runReflectanceArray)
-			{
-				HandleReflectanceArray();
-			}
-			break;
-		}
-	}
-	else
+
+	if (m_pCurrentState != nullptr)
 	{
-		m_gMotors.SetMotorSpeeds(0, 0);
-		ReadStartStopInput();
+		if (m_pCurrentState->GetIsStateFinished())
+		{
+			ChangeState(m_pCurrentState->GetStateNumber() + 1);
+		}
+
+		m_pCurrentState->UpdateState();
 	}
+
+
+//	if (runMotors == true)
+//	{
+//		switch (m_eZumoState)
+//		{
+//		case INIT:
+//			m_gMotors.SetMotorSpeeds(0, 0);
+//			m_eZumoState = ZUMO_STATES::CORRIDOR;
+//#if PRINT_STATE_CHANGES
+//			SPRINT("Changing to CORRIDOR state");
+//#endif
+//			break;
+//		case USER:
+//			//Read input from user through Serial connection (xBee)
+//			ReadInput();
+//			//InputManagerClass::HandleInput();
+//			break;
+//		case CORRIDOR:
+//			//Read input from user through Serial connection (xBee)
+//			ReadInput();
+//
+//			//If the reflectance array is allowed to run
+//			if (runReflectanceArray)
+//			{
+//				HandleReflectanceArray();
+//			}
+//			break;
+//		}
+//	}
+//	else
+//	{
+//		m_gMotors.SetMotorSpeeds(0, 0);
+//		ReadStartStopInput();
+//	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -300,14 +331,6 @@ void ReadStartStopInput()
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //																										//
-//									MOTOR FUNCTIONS														//
-//																										//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-//																										//
 //									DEBUG HELPERS														//
 //																										//
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -332,4 +355,57 @@ void DisplayArrayData()
 		Serial.print("\t");
 	}
 	Serial.print("\n");
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//																										//
+//									STATE CHANGES														//
+//																										//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AddState(ZState* mState)
+{
+	static int stateCounter = 0;
+	m_aStateList[stateCounter] = mState;
+	mState->SetStateNumber(stateCounter);
+	stateCounter++;
+}
+
+void ChangeState(ZState* mState)
+{
+	int stateNumber = mState->GetStateNumber();
+
+	SPRINT("Changing to state number : ");
+	Serial.print("\t" + stateNumber);
+
+	if (m_pCurrentState == nullptr)
+	{
+		m_pCurrentState = m_aStateList[stateNumber];
+		m_pCurrentState->InitState();
+	}
+	else
+	{
+		m_pCurrentState->StopState();
+		m_pCurrentState = m_aStateList[stateNumber];
+		m_pCurrentState->InitState();
+	}
+}
+
+void ChangeState(int mStateNum)
+{
+	SPRINT("Changing to state number : ");
+	Serial.print("\t" + mStateNum);
+
+
+	if (m_pCurrentState == nullptr)
+	{
+		m_pCurrentState = m_aStateList[mStateNum];
+		m_pCurrentState->InitState();
+	}
+	else
+	{
+		m_pCurrentState->StopState();
+		m_pCurrentState = m_aStateList[mStateNum];
+		m_pCurrentState->InitState();
+	}
 }

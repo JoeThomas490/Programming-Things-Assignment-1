@@ -18,10 +18,18 @@ void InputManagerClass::HandleInput()
 	{
 		//Read it as an integer value (ASCII value of char)
 		int input = Serial.read();
+
+#if PRINT_INPUT
+		SPRINT("Key pressed : ");
+		Serial.print("\t" + input);
+		Serial.print("\t" + (char)input);
+#endif
 		//Takeaway 32 as this is our starting value in the ASCII range
 		input -= 32;
 		//Use the value of input as the index within the array to set to true
 		m_aInputQueue[input] = true;
+
+
 	}
 }
 

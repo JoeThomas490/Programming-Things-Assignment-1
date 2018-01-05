@@ -21,29 +21,25 @@ public:
 
 	void init();
 
-	void Turn(const int direction, int delayMs, bool carryOn);
-	void Turn90(const int direction, bool carryOn);
-	void SetMotorSpeeds(int pLeftSpeed, int pRightSpeed);
-	void SetLeftMotorSpeed(int pLeftSpeed);
-	void SetRightMotorSpeed(int pRightSpeed);
+	static void Turn(const int direction, int delayMs, bool carryOn);
+	static void Turn90(const int direction, bool carryOn);
+	static void SetMotorSpeeds(int pLeftSpeed, int pRightSpeed);
+	static void SetLeftMotorSpeed(int pLeftSpeed);
+	static void SetRightMotorSpeed(int pRightSpeed);
 
-	int GetLeftMotorSpeed() { return m_iLeftMotorSpeed; };
-	int GetRightMotorSpeed() { return m_iRightMotorSpeed; };
-
-
+	static int GetLeftMotorSpeed() { return m_iLeftMotorSpeed; };
+	static int GetRightMotorSpeed() { return m_iRightMotorSpeed; };
 
 private:
-	void ClampMotorSpeed(int& pSpeed);
-
-
+	static void ClampMotorSpeed(int& pSpeed);
 
 private:
 
-	ZumoMotors motors;
+	static ZumoMotors motors;
 
 
-	int m_iLeftMotorSpeed = 0;
-	int m_iRightMotorSpeed = 0;
+	static int m_iLeftMotorSpeed;
+	static int m_iRightMotorSpeed;
 
 };
 

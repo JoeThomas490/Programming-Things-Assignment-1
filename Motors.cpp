@@ -1,5 +1,8 @@
 #include "Motors.h"
 
+int MotorsClass::m_iLeftMotorSpeed;
+int MotorsClass::m_iRightMotorSpeed;
+
 void MotorsClass::init()
 {
 
