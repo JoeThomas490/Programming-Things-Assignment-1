@@ -12,7 +12,7 @@ public:
 	bool m_bHasBeenSearched = false;
 
 	bool m_bObjectDetected = false;
-	DIRECTION m_eDirection;
+	//DIRECTION m_eDirection;
 };
 
 

@@ -1,34 +1,25 @@
+#include "Motors.h"
 #include <QTRSensors.h>
 #include <ZumoReflectanceSensorArray.h>
-#include <ZumoMotors.h>
 #include <ZumoBuzzer.h>
 #include <Pushbutton.h>
 
 #include "HelperMacros.h"
 #include "Constants.h"
 
-
+MotorsClass m_gMotors;
 ZumoBuzzer buzzer;
 ZumoReflectanceSensorArray reflectanceSensors;
-ZumoMotors motors;
 Pushbutton button(ZUMO_BUTTON);
 
 bool runMotors = true;
 bool runReflectanceArray = true;
 
 
-int leftMotorSpeed = 0;
-int rightMotorSpeed = 0;
-
 int printCounter = 0;
 
 unsigned int sensorArray[NUM_SENSORS];
 
-enum DIRECTION
-{
-	LEFT,
-	RIGHT
-};
 
 //Different behaviour states for robot
 enum ZUMO_STATES
@@ -53,6 +44,12 @@ ZUMO_STATES m_eZumoState;
 
 void setup()
 {
+	//Initialise sensor array to 0
+	for (int i = 0; i < NUM_SENSORS; i++)
+	{
+		sensorArray[i] = 0;
+	}
+
 	//Set start state as init state
 	m_eZumoState = INIT;
 
@@ -75,20 +72,21 @@ void setup()
 	// Wait 1 second and then begin automatic sensor calibration
 	// by rotating in place to sweep the sensors over the line
 	delay(1000);
+	SPRINT("Calibrating Reflectance Array...");
 	int i;
 	for (i = 0; i < 80; i++)
 	{
 		if ((i > 10 && i <= 30) || (i > 50 && i <= 70))
-			motors.setSpeeds(-200, 200);
+			m_gMotors.SetMotorSpeeds(-200, 200);
 		else
-			motors.setSpeeds(200, -200);
+			m_gMotors.SetMotorSpeeds(200, -200);
 		reflectanceSensors.calibrate();
 
 		// Since our counter runs to 80, the total delay will be
 		// 80*20 = 1600 ms.
 		delay(20);
 	}
-	motors.setSpeeds(0, 0);
+	m_gMotors.SetMotorSpeeds(0, 0);
 
 	// Turn off LED to indicate we are through with calibration
 	digitalWrite(13, LOW);
@@ -112,9 +110,12 @@ void loop()
 		switch (m_eZumoState)
 		{
 		case INIT:
-			SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
+			m_gMotors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
 			m_eZumoState = CORRIDOR;
+
+#if PRINT_STATE_CHANGES
 			SPRINT("Changing to CORRIDOR state");
+#endif
 			break;
 		case USER:
 			//Read input from user through Serial connection (xBee)
@@ -134,7 +135,7 @@ void loop()
 	}
 	else
 	{
-		SetMotorSpeeds(0, 0);
+		m_gMotors.SetMotorSpeeds(0, 0);
 		ReadStartStopInput();
 	}
 }
@@ -150,7 +151,7 @@ void HandleReflectanceArray()
 	//Get new data from reflectance sensors and put in array
 	reflectanceSensors.readLine(sensorArray);
 
-#if DEBUG
+#if PRINT_ARRAY_DATA
 	DisplayArrayData();
 #endif
 
@@ -168,11 +169,11 @@ void HandleReflectanceArray()
 	}
 
 	//If all the sensors bar 1 have been hit then stop
-	if (wallHitCounter == NUM_SENSORS - 1)
+	if (wallHitCounter == NUM_SENSORS - 2)
 	{
 		//We've hit a wall
 		//Stop moving and tell user
-		motors.setSpeeds(0, 0);
+		m_gMotors.SetMotorSpeeds(0, 0);
 		SPRINT("Wall hit!");
 
 		//Switch to USER state
@@ -188,15 +189,19 @@ void HandleReflectanceArray()
 	if (sensorArray[0] > 900 || sensorArray[1] > 900)
 	{
 		//Turn right away from wall
-		SPRINT("Wall hit on left, turning right!");
-		Turn(DIRECTION::RIGHT, 50, true);
+#if PRINT_WALL_HIT_DATA
+		SPRINT("Wall hit on left!");
+#endif
+		m_gMotors.Turn(1, 50, true);
 	}
 	//If we detect darkness on the right two sensors then turn left
-	else if (sensorArray[NUM_SENSORS] > 900 || sensorArray[NUM_SENSORS - 1] > 900)
+	else if (sensorArray[NUM_SENSORS-1] > 900 || sensorArray[NUM_SENSORS - 2] > 900)
 	{
 		//Turn left away from wall
-		SPRINT("Wall hit on right, turning left!");
-		Turn(DIRECTION::LEFT, 50, true);
+#if PRINT_WALL_HIT_DATA
+		SPRINT("Wall hit on right!");
+#endif
+		m_gMotors.Turn(-1, 50, true);
 	}
 }
 
@@ -214,33 +219,41 @@ void ReadInput()
 		switch (tolower(input))
 		{
 		case 'w':
-			SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
+			m_gMotors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
 			break;
 		case 's':
-			if (leftMotorSpeed != 0 && rightMotorSpeed != 0)
+			if (m_gMotors.GetLeftMotorSpeed() != 0 && m_gMotors.GetRightMotorSpeed()	 != 0)
 			{
-				SetMotorSpeeds(0, 0);
+				m_gMotors.SetMotorSpeeds(0, 0);
 			}
 			else
 			{
-				SetMotorSpeeds(-RUN_SPEED, -RUN_SPEED);
+				m_gMotors.SetMotorSpeeds(-RUN_SPEED, -RUN_SPEED);
 			}
 			break;
 
 		case 'a':
-			Turn(DIRECTION::LEFT, 50, false);
+			m_gMotors.Turn(-1, 50, false);
 			break;
 		case 'd':
-			Turn(DIRECTION::RIGHT, 50, false);
+			m_gMotors.Turn(1, 50, false);
 			break;
 		case 'c':
+#if PRINT_STATE_CHANGES
 			SPRINT("Changing to CORRIDOR state");
+#endif
 			m_eZumoState = ZUMO_STATES::CORRIDOR;
+			runReflectanceArray = true;
+			m_gMotors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
+			delay(100);
 			break;
 		case 'u':
+#if PRINT_STATE_CHANGES
 			SPRINT("Changing to USER state");
+#endif
 			m_eZumoState = ZUMO_STATES::USER;
-			SetMotorSpeeds(0, 0);
+			m_gMotors.SetMotorSpeeds(0, 0);
+			delay(100);
 			break;
 
 		case '1':
@@ -249,6 +262,18 @@ void ReadInput()
 		case '2':
 			runReflectanceArray = !runReflectanceArray;
 			break;
+
+		case 'r':
+			if (m_eZumoState == ZUMO_STATES::USER)
+			{
+				m_eZumoState = ZUMO_STATES::ROOM;
+			}
+			break;
+		case 'o':
+			if (m_eZumoState == ZUMO_STATES::USER)
+			{
+				m_eZumoState = ZUMO_STATES::CORRIDOR;
+			}
 
 		default:
 			break;
@@ -278,86 +303,6 @@ void ReadStartStopInput()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//A function to handle turning the Zumo left or right
-//Parameters : 
-//1.Pass it -1 for left, 1 for right. 
-//2.How long to turn for. 
-//3.Whether to carry on straight after turn.
-void Turn(DIRECTION direction, int delayMs, bool carryOn)
-{
-	switch (direction)
-	{
-	case DIRECTION::LEFT:
-		SetMotorSpeeds(-MAX_SPEED, MAX_SPEED);
-		break;
-
-	case DIRECTION::RIGHT:
-		SetMotorSpeeds(MAX_SPEED, -MAX_SPEED);
-		break;
-	}
-
-
-	delay(delayMs);
-
-	if (carryOn)
-	{
-		SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
-	}
-	else
-	{
-		SetMotorSpeeds(0, 0);
-	}
-}
-
-//Function to set speeds of both motors independantly
-//Parameters :
-//1.Left motor speed
-//2.Right motor speed
-void SetMotorSpeeds(int pLeftSpeed, int pRightSpeed)
-{
-	ClampMotorSpeed(pLeftSpeed);
-	ClampMotorSpeed(pRightSpeed);
-
-	motors.setSpeeds(pLeftSpeed, pRightSpeed);
-	leftMotorSpeed = pLeftSpeed;
-	rightMotorSpeed = pRightSpeed;
-}
-
-//Function to set left motor speed only
-//Parameters: 
-//1.Left motor speed
-void SetLeftMotorSpeed(int pLeftSpeed)
-{
-	ClampMotorSpeed(pLeftSpeed);
-
-	motors.setSpeeds(pLeftSpeed, rightMotorSpeed);
-	leftMotorSpeed = pLeftSpeed;
-}
-
-//Function to set right motor speed only
-//Parameters: 
-//2.Right motor speed
-void SetRightMotorSpeed(int pRightSpeed)
-{
-	ClampMotorSpeed(pRightSpeed);
-
-	motors.setSpeeds(leftMotorSpeed, pRightSpeed);
-	rightMotorSpeed = pRightSpeed;
-}
-
-//Function to clamp any motor speed between it's maximum value (MAX_SPEED)
-//Paramaters : Reference to speed being clamped
-void ClampMotorSpeed(int& pSpeed)
-{
-	if (pSpeed > MAX_SPEED)
-	{
-		pSpeed = MAX_SPEED;
-	}
-	else if (pSpeed < -MAX_SPEED)
-	{
-		pSpeed = -MAX_SPEED;
-	}
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //																										//
