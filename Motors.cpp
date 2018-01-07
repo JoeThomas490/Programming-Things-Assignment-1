@@ -1,4 +1,4 @@
-#include "../Motors.h"
+#include "Motors.h"
 
 int MotorsClass::m_iLeftMotorSpeed;
 int MotorsClass::m_iRightMotorSpeed;

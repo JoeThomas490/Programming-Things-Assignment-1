@@ -65,7 +65,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\PT_Assignment_1;$(ProjectDir)..\..\..\Arduino\libraries\ZumoMotors;$(ProjectDir)..\..\..\Arduino\libraries\QTRSensors;$(ProjectDir)..\..\..\Arduino\libraries\ZumoReflectanceSensorArray;$(ProjectDir)..\..\..\Arduino\libraries\ZumoBuzzer;$(ProjectDir)..\..\..\Arduino\libraries\Pushbutton;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;$(ProjectDir)..\..\..\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr\;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\PT_Assignment_1;$(ProjectDir)..\..\..\Arduino\libraries\ZumoMotors;$(ProjectDir)..\..\..\Arduino\libraries\ZumoReflectanceSensorArray;$(ProjectDir)..\..\..\Arduino\libraries\QTRSensors;$(ProjectDir)..\..\..\Arduino\libraries\ZumoBuzzer;$(ProjectDir)..\..\..\Arduino\libraries\Pushbutton;$(ProjectDir)..\..\..\Arduino\libraries\NewPing;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;$(ProjectDir)..\..\..\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr\;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)__vm\.PT_Assignment_1.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;F_CPU=16000000L;ARDUINO=10805;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -91,29 +91,31 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Constants.h" />
-    <ClInclude Include="Corridor.h" />
-    <ClInclude Include="HelperMacros.h" />
-    <ClInclude Include="ReflectanceArray.h" />
-    <ClInclude Include="ZStateCorridor.h" />
-    <ClInclude Include="ZStateInit.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="Motors.h" />
-    <ClInclude Include="Room.h" />
-    <ClInclude Include="ZStateUser.h" />
-    <ClInclude Include="ZState.h" />
+    <ClInclude Include="Include\Constants.h" />
+    <ClInclude Include="Include\Corridor.h" />
+    <ClInclude Include="Include\HelperMacros.h" />
+    <ClInclude Include="Include\ReflectanceArray.h" />
+    <ClInclude Include="Include\ZStateCorridor.h" />
+    <ClInclude Include="Include\ZStateInit.h" />
+    <ClInclude Include="Include\InputManager.h" />
+    <ClInclude Include="Include\Motors.h" />
+    <ClInclude Include="Include\Room.h" />
+    <ClInclude Include="Include\ZStateRoom.h" />
+    <ClInclude Include="Include\ZStateUser.h" />
+    <ClInclude Include="Include\ZState.h" />
     <ClInclude Include="__vm\.PT_Assignment_1.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Corridor.cpp" />
-    <ClCompile Include="ReflectanceArray.cpp" />
-    <ClCompile Include="ZStateCorridor.cpp" />
-    <ClCompile Include="ZStateInit.cpp" />
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="Motors.cpp" />
-    <ClCompile Include="Room.cpp" />
-    <ClCompile Include="ZStateUser.cpp" />
-    <ClCompile Include="ZState.cpp" />
+    <ClCompile Include="src\Corridor.cpp" />
+    <ClCompile Include="src\ReflectanceArray.cpp" />
+    <ClCompile Include="src\ZStateCorridor.cpp" />
+    <ClCompile Include="src\ZStateInit.cpp" />
+    <ClCompile Include="src\InputManager.cpp" />
+    <ClCompile Include="src\Motors.cpp" />
+    <ClCompile Include="src\Room.cpp" />
+    <ClCompile Include="src\ZStateRoom.cpp" />
+    <ClCompile Include="src\ZStateUser.cpp" />
+    <ClCompile Include="src\ZState.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
