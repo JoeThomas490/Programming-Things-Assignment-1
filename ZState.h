@@ -9,6 +9,7 @@
 
 #include "InputManager.h"	
 #include "Motors.h"
+#include "ReflectanceArray.h"
 
 class ZState
 {

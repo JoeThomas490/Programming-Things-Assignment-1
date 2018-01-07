@@ -2,7 +2,7 @@
 
 static bool m_aInputQueue[ASCII_RANGE];
 
-void InputManagerClass::init()
+void InputManagerClass::Init()
 {
 	//Make sure the queue is false initally
 	ClearQueue();

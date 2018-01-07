@@ -27,7 +27,7 @@ class InputManagerClass
 public:
 
 	//Initialise the class
-	static void init();
+	static void Init();
 
 	//Handles the actual input (Serial.read) and puts inside 
 	//input queue

@@ -8,10 +8,13 @@ void ReflectanceArrayClass::Init()
 {
 	reflectanceSensors.init();
 
+	//Set all members in sensorArray to 0
 	for (int i = 0; i < NUM_SENSORS; i++)
 	{
 		m_aSensorArray[i] = 0;
 	}
+
+	SPRINT("Initialised Reflectance Array class.");
 }
 
 void ReflectanceArrayClass::Calibrate()
@@ -19,6 +22,10 @@ void ReflectanceArrayClass::Calibrate()
 	// Wait 1 second and then begin automatic sensor calibration
 	// by rotating in place to sweep the sensors over the line
 	delay(1000);
+
+	// Turn on LED to indicate we are in calibration mode
+	pinMode(13, OUTPUT);
+	digitalWrite(13, HIGH);
 
 	SPRINT("Calibrating Reflectance Array...");
 	int i;
@@ -34,6 +41,14 @@ void ReflectanceArrayClass::Calibrate()
 		// 80*20 = 1600 ms.
 		delay(20);
 	}
+
+	// Turn off LED to indicate we are through with calibration
+	digitalWrite(13, LOW);
+
+	//Set motors to not move
+	MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
+
+	SPRINT("Finished calibrating...");
 }
 
 ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
@@ -61,8 +76,9 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 		//We've hit a wall
 		//Stop moving and tell user
 		MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
+#if PRINT_WALL_HIT_DATA
 		SPRINT("Wall hit!");
-
+#endif
 		//Switch to USER state
 		//m_eZumoState = ZState::ZUMO_STATES::USER;
 		
@@ -118,6 +134,17 @@ void ReflectanceArrayClass::ReadSensorData()
 #if PRINT_ARRAY_DATA
 	DisplayArrayData();
 #endif
+}
+
+//Print out the sensor array data all in one line with tabs in between
+void ReflectanceArrayClass::DisplayArrayData()
+{
+	for (int i = 0; i < NUM_SENSORS; i++)
+	{
+		Serial.print(m_aSensorArray[i]);
+		Serial.print("\t");
+	}
+	Serial.print("\n");
 }
 
 

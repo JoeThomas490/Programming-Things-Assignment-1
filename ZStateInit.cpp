@@ -11,14 +11,19 @@ ZStateInit::~ZStateInit()
 
 void ZStateInit::InitState()
 {
+	InputManagerClass::Init();
+	ReflectanceArrayClass::GetReflectanceArrayInstance().Init();
+	ReflectanceArrayClass::GetReflectanceArrayInstance().Calibrate();
+
 	SPRINT("INITIALISED INIT STATE");
+
+	SPRINT("Press 'p' to start!");
 }
 
 void ZStateInit::UpdateState()
 {
 	if (InputManagerClass::IsKeyPressed('p'))
 	{
-		SPRINT("CHANGING STATE");
 		m_bStateFinished = true;
 	}
 }

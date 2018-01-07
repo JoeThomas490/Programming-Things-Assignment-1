@@ -36,7 +36,7 @@ class ReflectanceArrayClass
  public:
 
 
-	 static ReflectanceArrayClass& GetMotorInstance()
+	 static ReflectanceArrayClass& GetReflectanceArrayInstance()
 	 {
 		 static ReflectanceArrayClass* instance = new ReflectanceArrayClass();
 
@@ -59,7 +59,7 @@ private:
 private:
 
 	void ReadSensorData();
-
+	void DisplayArrayData();
 };
 
 extern ReflectanceArrayClass ReflectanceArray;

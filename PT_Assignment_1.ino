@@ -1,10 +1,10 @@
 
-#include "ReflectanceArray.h"
 #include "ZStateInit.h"
 #include "UserZState.h"
 
 #include "InputManager.h"
 #include "Motors.h"
+#include "ReflectanceArray.h"
 
 #include <QTRSensors.h>
 #include <ZumoReflectanceSensorArray.h>
@@ -18,16 +18,11 @@
 MotorsClass m_gMotors;
 
 ZumoBuzzer buzzer;
-ZumoReflectanceSensorArray reflectanceSensors;
+
 Pushbutton button(ZUMO_BUTTON);
 
 bool runMotors = true;
 bool runReflectanceArray = true;
-
-int printCounter = 0;
-
-unsigned int sensorArray[NUM_SENSORS];
-
 
 //Different behaviour states for robot
 
@@ -56,14 +51,6 @@ void setup()
 	AddState(initState);
 	AddState(userState);
 
-	//Initialise sensor array to 0
-	for (int i = 0; i < NUM_SENSORS; i++)
-	{
-		sensorArray[i] = 0;
-	}
-
-	InputManagerClass::init();
-
 	//Set start state as init state
 	m_eZumoState = ZState::ZUMO_STATES::INIT;
 
@@ -73,29 +60,13 @@ void setup()
 	// Play a little welcome song
 	buzzer.play(">g32>>c32");
 
-	// Initialize the reflectance sensors module
-	reflectanceSensors.init();
-
 	// Wait for the user button to be pressed and released
 	button.waitForButton();
-
-	// Turn on LED to indicate we are in calibration mode
-	pinMode(13, OUTPUT);
-	digitalWrite(13, HIGH);
-
-	m_gMotors.SetMotorSpeeds(0, 0);
-
-	// Turn off LED to indicate we are through with calibration
-	digitalWrite(13, LOW);
 
 	// Play music and wait for it to finish before we start driving.
 	buzzer.play("L16 cdegreg4");
 
-	//Write a message to the console
-	SPRINT("Ready to start...");
-
 	runMotors = false;
-	printCounter = 0;
 
 	ChangeState(0);
 }
@@ -166,26 +137,6 @@ void ReadInput()
 		int input = Serial.read();
 		switch (tolower(input))
 		{
-		case 'w':
-			m_gMotors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
-			break;
-		case 's':
-			if (m_gMotors.GetLeftMotorSpeed() != 0 && m_gMotors.GetRightMotorSpeed()	 != 0)
-			{
-				m_gMotors.SetMotorSpeeds(0, 0);
-			}
-			else
-			{
-				m_gMotors.SetMotorSpeeds(-RUN_SPEED, -RUN_SPEED);
-			}
-			break;
-
-		case 'a':
-			m_gMotors.Turn(-1, 50, false);
-			break;
-		case 'd':
-			m_gMotors.Turn(1, 50, false);
-			break;
 		case 'c':
 #if PRINT_STATE_CHANGES
 			SPRINT("Changing to CORRIDOR state");
@@ -242,34 +193,6 @@ void ReadStartStopInput()
 			break;
 		}
 	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-//																										//
-//									DEBUG HELPERS														//
-//																										//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//Print out the sensor array data all in one line with tabs in between
-void DisplayArrayData()
-{
-	printCounter++;
-
-	if (printCounter > PRINT_FRAME_COUNT)
-	{
-		printCounter = 0;
-	}
-	else
-	{
-		return;
-	}
-
-	for (int i = 0; i < NUM_SENSORS; i++)
-	{
-		Serial.print(sensorArray[i]);
-		Serial.print("\t");
-	}
-	Serial.print("\n");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
