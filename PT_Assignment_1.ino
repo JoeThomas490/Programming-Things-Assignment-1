@@ -13,6 +13,8 @@
 #include <ZumoBuzzer.h>
 #include <Pushbutton.h>
 
+#include <NewPing\NewPing.h>
+
 #include "HelperMacros.h"
 #include "Constants.h"
 
@@ -28,7 +30,7 @@ bool run = true;
 //Different behaviour states for robot
 
 ZState::ZUMO_STATES m_eZumoState;
-
+NewPing sonar(SONAR::TRIGGER_PIN, SONAR::ECHO_PIN, SONAR::MAX_DISTANCE); // NewPing setup of pins and maximum distance.
 
 ZState** m_aStateList;
 ZState* m_pCurrentState;
@@ -74,6 +76,8 @@ void setup()
 	runMotors = false;
 
 	ChangeState((int)ZState::ZUMO_STATES::INIT);
+
+
 }
 
 //Main Loop

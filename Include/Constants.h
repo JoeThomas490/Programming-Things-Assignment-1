@@ -14,4 +14,11 @@ const int NUM_SENSORS = 6;
 //How often to print debug data
 const int PRINT_FRAME_COUNT = 5;
 
+namespace SONAR
+{
+	const int TRIGGER_PIN = 2;
+	const int ECHO_PIN = 6;
+	const int MAX_DISTANCE = 100;
+}
+
 #endif

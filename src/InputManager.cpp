@@ -1,4 +1,4 @@
-#include "InputManager.h"
+#include "../InputManager.h"
 
 static bool m_aInputQueue[ASCII_RANGE];
 
