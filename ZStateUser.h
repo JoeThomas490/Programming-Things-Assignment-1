@@ -24,6 +24,16 @@ public:
 
 	virtual void StopState();
 
+private:
+
+	void CheckMovementInput();
+	void CheckStateChangeInput();
+	void CheckDirectionInput();
+
+private:
+
+	bool m_bWaitForDirection;
+
 };
 
 #endif
