@@ -20,12 +20,7 @@ ZumoBuzzer buzzer;
 
 Pushbutton button(ZUMO_BUTTON);
 
-bool runMotors = true;
-bool runReflectanceArray = true;
-
-//Different behaviour states for robot
-
-ZState::ZUMO_STATES m_eZumoState;
+bool m_bRunBehaviour = true;
 
 
 ZState** m_aStateList;
@@ -50,9 +45,6 @@ void setup()
 	AddState(userState);
 	AddState(corridorState);
 
-	//Set start state as init state
-	m_eZumoState = ZState::ZUMO_STATES::INIT;
-
 	//Begin Serial communication
 	Serial.begin(9600);
 
@@ -67,8 +59,6 @@ void setup()
 	// Play music and wait for it to finish before we start driving.
 	buzzer.play("L16 cdegreg4");
 
-	runMotors = false;
-
 	ChangeState((int)ZState::ZUMO_STATES::INIT);
 }
 
@@ -77,14 +67,28 @@ void loop()
 {
 	InputManagerClass::HandleInput();
 
-	if (m_pCurrentState != nullptr)
+	//Check if '.' is pressed and flip main run flag
+	if (InputManagerClass::IsKeyPressed('.'))
 	{
-		if (m_pCurrentState->GetIsStateFinished())
-		{
-			ChangeState((int) m_pCurrentState->GetNextState());
-		}
+		m_bRunBehaviour = !m_bRunBehaviour;
+	}
 
-		m_pCurrentState->UpdateState();
+	//If we are supposed to run main behaviour
+	if (m_bRunBehaviour)
+	{
+		//Check state pointer isn't null
+		if (m_pCurrentState != nullptr)
+		{
+			//Check if the state is finished
+			if (m_pCurrentState->GetIsStateFinished())
+			{
+				//If so change to the next connected state
+				ChangeState((int)m_pCurrentState->GetNextState());
+			}
+
+			//Update the current state
+			m_pCurrentState->UpdateState();
+		}
 	}
 }
 
