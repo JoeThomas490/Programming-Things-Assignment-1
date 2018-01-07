@@ -19,7 +19,7 @@ void InputManagerClass::HandleInput()
 		//Read it as an integer value (ASCII value of char)
 		int input = Serial.read();
 
-#if PRINT_INPUT
+#if PRINT_USER_INPUT
 		SPRINT(Key pressed : );
 		Serial.print("\t");
 		Serial.print((char)input);

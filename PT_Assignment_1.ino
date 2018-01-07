@@ -41,10 +41,12 @@ void setup()
 	ZStateInit* initState = new ZStateInit();
 	ZStateUser* userState = new ZStateUser();
 	ZStateCorridor* corridorState = new ZStateCorridor();
+	ZStateRoom* roomState = new ZStateRoom();
 
 	AddState(initState);
 	AddState(userState);
 	AddState(corridorState);
+	AddState(roomState);
 
 	//Begin Serial communication
 	Serial.begin(9600);

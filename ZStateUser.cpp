@@ -100,6 +100,11 @@ void ZStateUser::CheckStateChangeInput()
 		m_eNextState = ZUMO_STATES::CORRIDOR;
 		//Set this state to now wait for a direction
 		m_bWaitForDirection = true;
+
+
+		SPRINT(Corridor detected..);
+		SPRINT(Which direction ? 'r' or 'l');
+
 	}
 	//If the 'r' key is pressed
 	if (InputManagerClass::IsKeyPressed('r'))
@@ -108,6 +113,10 @@ void ZStateUser::CheckStateChangeInput()
 		m_eNextState = ZUMO_STATES::ROOM;
 		//Set this state to now wait for a direction
 		m_bWaitForDirection = true;
+
+		//Notify user
+		SPRINT(Room detected..);
+		SPRINT(Which direction ? 'r' or 'l');
 	}
 }
 
@@ -121,6 +130,9 @@ void ZStateUser::CheckDirectionInput()
 
 		//Finish state
 		m_bStateFinished = true;
+
+		//Notify user
+		SPRINT(Entering room on right..);
 	}
 	//If '0' key is pressed
 	if (InputManagerClass::IsKeyPressed('l'))
@@ -130,5 +142,8 @@ void ZStateUser::CheckDirectionInput()
 
 		//Finish state
 		m_bStateFinished = true;
+
+		//Notify user
+		SPRINT(Entering room on left..);
 	}
 }
