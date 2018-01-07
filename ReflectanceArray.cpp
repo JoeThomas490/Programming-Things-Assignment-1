@@ -23,8 +23,6 @@ void ReflectanceArrayClass::Calibrate()
 	// by rotating in place to sweep the sensors over the line
 	delay(1000);
 
-	// Turn on LED to indicate we are in calibration mode
-	pinMode(13, OUTPUT);
 	digitalWrite(13, HIGH);
 
 	SPRINT(Calibrating Reflectance Array...);

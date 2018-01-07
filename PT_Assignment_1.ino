@@ -1,4 +1,5 @@
 
+#include "ZStateRoom.h"
 #include "ZStateInit.h"
 #include "ZStateUser.h"
 #include "ZStateCorridor.h"

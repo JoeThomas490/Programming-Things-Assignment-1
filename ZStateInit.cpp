@@ -13,6 +13,8 @@ void ZStateInit::InitState()
 {
 	m_bStateFinished = false;
 
+	pinMode(13, OUTPUT);
+
 	InputManagerClass::Init();
 	ReflectanceArrayClass::GetReflectanceArrayInstance().Init();
 	ReflectanceArrayClass::GetReflectanceArrayInstance().Calibrate();
