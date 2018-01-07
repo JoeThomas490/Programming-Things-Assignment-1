@@ -48,7 +48,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 	for (int i = 0; i < NUM_SENSORS; i++)
 	{
 		//If they have a slight bit of darkness we will count that as a hit
-		if (sensorArray[i] > 100)
+		if (m_aSensorArray[i] > 100)
 		{
 			//Increment counter
 			wallHitCounter++;
@@ -77,7 +77,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 	//Need to make these values variables for easier calibration
 	//Maybe use calibrated sensor value instead?
 
-	if (sensorArray[0] > 900 || sensorArray[1] > 900)
+	if (m_aSensorArray[0] > 900 || m_aSensorArray[1] > 900)
 	{
 		//Turn right away from wall
 #if PRINT_WALL_HIT_DATA
@@ -92,7 +92,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 		return hitData;
 	}
 	//If we detect darkness on the right two sensors then turn left
-	else if (sensorArray[NUM_SENSORS - 1] > 900 || sensorArray[NUM_SENSORS - 2] > 900)
+	else if (m_aSensorArray[NUM_SENSORS - 1] > 900 || m_aSensorArray[NUM_SENSORS - 2] > 900)
 	{
 		//Turn left away from wall
 #if PRINT_WALL_HIT_DATA
