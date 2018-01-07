@@ -16,8 +16,6 @@
 #include "Constants.h"
 
 
-MotorsClass m_gMotors;
-
 ZumoBuzzer buzzer;
 
 Pushbutton button(ZUMO_BUTTON);
@@ -47,8 +45,6 @@ void setup()
 	ZStateInit* initState = new ZStateInit();
 	ZStateUser* userState = new ZStateUser();
 	ZStateCorridor* corridorState = new ZStateCorridor();
-
-	m_gMotors = MotorsClass::GetMotorInstance();
 
 	AddState(initState);
 	AddState(userState);
@@ -90,114 +86,8 @@ void loop()
 
 		m_pCurrentState->UpdateState();
 	}
-
-
-//	if (runMotors == true)
-//	{
-//		switch (m_eZumoState)
-//		{
-//		case INIT:
-//			m_gMotors.SetMotorSpeeds(0, 0);
-//			m_eZumoState = ZUMO_STATES::CORRIDOR;
-//#if PRINT_STATE_CHANGES
-//			SPRINT("Changing to CORRIDOR state");
-//#endif
-//			break;
-//		case USER:
-//			//Read input from user through Serial connection (xBee)
-//			ReadInput();
-//			//InputManagerClass::HandleInput();
-//			break;
-//		case CORRIDOR:
-//			//Read input from user through Serial connection (xBee)
-//			ReadInput();
-//
-//			//If the reflectance array is allowed to run
-//			if (runReflectanceArray)
-//			{
-//				HandleReflectanceArray();
-//			}
-//			break;
-//		}
-//	}
-//	else
-//	{
-//		m_gMotors.SetMotorSpeeds(0, 0);
-//		ReadStartStopInput();
-//	}
 }
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-//																										//
-//									INPUT																//
-//																										//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void ReadInput()
-{
-	if (Serial.available() > 0)
-	{
-		int input = Serial.read();
-		switch (tolower(input))
-		{
-		case 'c':
-#if PRINT_STATE_CHANGES
-			SPRINT("Changing to CORRIDOR state");
-#endif
-			m_eZumoState = ZState::ZUMO_STATES::CORRIDOR;
-			runReflectanceArray = true;
-			m_gMotors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
-			delay(100);
-			break;
-		case 'u':
-#if PRINT_STATE_CHANGES
-			SPRINT("Changing to USER state");
-#endif
-			m_eZumoState = ZState::ZUMO_STATES::USER;
-			m_gMotors.SetMotorSpeeds(0, 0);
-			delay(100);
-			break;
-
-		case '1':
-			runMotors = !runMotors;
-			break;
-		case '2':
-			runReflectanceArray = !runReflectanceArray;
-			break;
-
-		case 'r':
-			if (m_eZumoState == ZState::ZUMO_STATES::USER)
-			{
-				m_eZumoState = ZState::ZUMO_STATES::ROOM;
-			}
-			break;
-		case 'o':
-			if (m_eZumoState == ZState::ZUMO_STATES::USER)
-			{
-				m_eZumoState = ZState::ZUMO_STATES::CORRIDOR;
-			}
-
-		default:
-			break;
-		}
-	}
-}
-
-void ReadStartStopInput()
-{
-	if (Serial.available() > 0)
-	{
-		int input = Serial.read();
-		switch (input)
-		{
-		case 'p':
-		case 'P':
-			runMotors = !runMotors;
-			break;
-		}
-	}
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //																										//
