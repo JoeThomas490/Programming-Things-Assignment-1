@@ -1,4 +1,5 @@
 
+#include "ZStateRoom.h"
 #include "ZStateInit.h"
 #include "ZStateUser.h"
 #include "ZStateCorridor.h"
@@ -17,15 +18,14 @@
 #include "HelperMacros.h"
 #include "Constants.h"
 
-
-MotorsClass m_gMotors;
-
 ZumoBuzzer buzzer;
 
 Pushbutton button(ZUMO_BUTTON);
 
 bool runMotors = true;
 bool runReflectanceArray = true;
+
+bool run = true;
 
 //Different behaviour states for robot
 
@@ -44,17 +44,17 @@ ZState* m_pCurrentState;
 
 void setup()
 {
-	m_aStateList = new ZState*[3];
+	m_aStateList = new ZState*[4];
 
 	ZStateInit* initState = new ZStateInit();
 	ZStateUser* userState = new ZStateUser();
 	ZStateCorridor* corridorState = new ZStateCorridor();
-
-	m_gMotors = MotorsClass::GetMotorInstance();
+	ZStateRoom* roomState = new ZStateRoom();
 
 	AddState(initState);
 	AddState(userState);
 	AddState(corridorState);
+	AddState(roomState);
 
 	//Set start state as init state
 	m_eZumoState = ZState::ZUMO_STATES::INIT;
@@ -85,50 +85,23 @@ void loop()
 {
 	InputManagerClass::HandleInput();
 
-	if (m_pCurrentState != nullptr)
+	if (InputManagerClass::IsKeyPressed('.'))
 	{
-		if (m_pCurrentState->GetIsStateFinished())
-		{
-			ChangeState((int) m_pCurrentState->GetNextState());
-		}
-
-		m_pCurrentState->UpdateState();
+		run = !run;
 	}
 
+	if (run == true)
+	{
+		if (m_pCurrentState != nullptr)
+		{
+			if (m_pCurrentState->GetIsStateFinished())
+			{
+				ChangeState((int)m_pCurrentState->GetNextState());
+			}
 
-//	if (runMotors == true)
-//	{
-//		switch (m_eZumoState)
-//		{
-//		case INIT:
-//			m_gMotors.SetMotorSpeeds(0, 0);
-//			m_eZumoState = ZUMO_STATES::CORRIDOR;
-//#if PRINT_STATE_CHANGES
-//			SPRINT("Changing to CORRIDOR state");
-//#endif
-//			break;
-//		case USER:
-//			//Read input from user through Serial connection (xBee)
-//			ReadInput();
-//			//InputManagerClass::HandleInput();
-//			break;
-//		case CORRIDOR:
-//			//Read input from user through Serial connection (xBee)
-//			ReadInput();
-//
-//			//If the reflectance array is allowed to run
-//			if (runReflectanceArray)
-//			{
-//				HandleReflectanceArray();
-//			}
-//			break;
-//		}
-//	}
-//	else
-//	{
-//		m_gMotors.SetMotorSpeeds(0, 0);
-//		ReadStartStopInput();
-//	}
+			m_pCurrentState->UpdateState();
+		}
+	}
 }
 
 
@@ -151,7 +124,6 @@ void ReadInput()
 #endif
 			m_eZumoState = ZState::ZUMO_STATES::CORRIDOR;
 			runReflectanceArray = true;
-			m_gMotors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
 			delay(100);
 			break;
 		case 'u':
@@ -159,7 +131,6 @@ void ReadInput()
 			SPRINT("Changing to USER state");
 #endif
 			m_eZumoState = ZState::ZUMO_STATES::USER;
-			m_gMotors.SetMotorSpeeds(0, 0);
 			delay(100);
 			break;
 

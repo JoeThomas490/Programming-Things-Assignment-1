@@ -21,72 +21,66 @@
     <ClInclude Include="__vm\.PT_Assignment_1.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\HelperMacros.h">
+    <ClInclude Include="Room.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Constants.h">
+    <ClInclude Include="Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\InputManager.h">
+    <ClInclude Include="HelperMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Corridor.h">
+    <ClInclude Include="Motors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Motors.h">
+    <ClInclude Include="InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ReflectanceArray.h">
+    <ClInclude Include="ZState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Room.h">
+    <ClInclude Include="Corridor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ZState.h">
+    <ClInclude Include="ZStateInit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ZStateCorridor.h">
+    <ClInclude Include="ZStateCorridor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ZStateInit.h">
+    <ClInclude Include="ReflectanceArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ZStateRoom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ZStateUser.h">
+    <ClInclude Include="ZStateUser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\InputManager.cpp">
+    <ClCompile Include="Corridor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Motors.cpp">
+    <ClCompile Include="InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Corridor.cpp">
+    <ClCompile Include="Motors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ReflectanceArray.cpp">
+    <ClCompile Include="Room.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Room.cpp">
+    <ClCompile Include="ZState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ZState.cpp">
+    <ClCompile Include="ZStateInit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ZStateCorridor.cpp">
+    <ClCompile Include="ZStateCorridor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ZStateInit.cpp">
+    <ClCompile Include="ReflectanceArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ZStateRoom.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ZStateUser.cpp">
+    <ClCompile Include="ZStateUser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

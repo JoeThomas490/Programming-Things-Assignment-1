@@ -9,8 +9,7 @@
 #include "WProgram.h"
 #endif
 
-#include "ZumoMotors\ZumoMotors.h"
-
+#include <ZumoMotors.h>
 #include "Constants.h"
 
 class MotorsClass

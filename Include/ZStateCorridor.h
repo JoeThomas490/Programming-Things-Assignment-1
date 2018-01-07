@@ -25,16 +25,9 @@ public:
 
 
 private:
-
-	void CheckWallCollision();
-	void CheckInput();
-
-private:
 	
 	ReflectanceArrayClass m_reflectanceArray;
 	MotorsClass m_motors;
-
-	bool m_bRunCorridorBehaviour;
 };
 
 #endif
