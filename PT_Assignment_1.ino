@@ -1,6 +1,6 @@
 
 #include "ZStateInit.h"
-#include "UserZState.h"
+#include "ZStateUser.h"
 
 #include "InputManager.h"
 #include "Motors.h"
@@ -44,7 +44,7 @@ void setup()
 	m_aStateList = new ZState*[2];
 
 	ZStateInit* initState = new ZStateInit();
-	UserZState* userState = new UserZState();
+	ZStateUser* userState = new ZStateUser();
 
 	m_gMotors = MotorsClass::GetMotorInstance();
 

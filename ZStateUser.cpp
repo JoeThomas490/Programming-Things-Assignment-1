@@ -1,19 +1,19 @@
-#include "UserZState.h"
+#include "ZStateUser.h"
 
-UserZState::UserZState()
+ZStateUser::ZStateUser()
 {
 }
 
-UserZState::~UserZState()
+ZStateUser::~ZStateUser()
 {
 }
 
-void UserZState::InitState()
+void ZStateUser::InitState()
 {
 	SPRINT(Initialising USER State);
 }
 
-void UserZState::UpdateState()
+void ZStateUser::UpdateState()
 {
 	if (InputManagerClass::IsKeyPressed('w'))
 	{
@@ -42,7 +42,7 @@ void UserZState::UpdateState()
 	}
 }
 
-void UserZState::StopState()
+void ZStateUser::StopState()
 {
 	SPRINT(Stopping USER State);
 }

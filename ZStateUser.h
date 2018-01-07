@@ -12,12 +12,12 @@
 
 #include "Motors.h"
 
-class UserZState : public ZState
+class ZStateUser : public ZState
 {
 public:
 
-	UserZState();
-	virtual ~UserZState();
+	ZStateUser();
+	virtual ~ZStateUser();
 
 	virtual void InitState();
 	virtual void UpdateState();
