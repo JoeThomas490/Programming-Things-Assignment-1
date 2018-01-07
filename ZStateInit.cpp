@@ -11,12 +11,15 @@ ZStateInit::~ZStateInit()
 
 void ZStateInit::InitState()
 {
+	m_bStateFinished = false;
+
 	InputManagerClass::Init();
 	ReflectanceArrayClass::GetReflectanceArrayInstance().Init();
 	ReflectanceArrayClass::GetReflectanceArrayInstance().Calibrate();
 
-	SPRINT(Initialised INIT state);
+	m_eNextState = ZUMO_STATES::CORRIDOR;
 
+	SPRINT(Initialised INIT state);
 	SPRINT(Press 'p' to start!);
 }
 

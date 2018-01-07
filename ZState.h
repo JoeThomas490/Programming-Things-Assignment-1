@@ -14,6 +14,17 @@
 class ZState
 {
 public:
+
+	enum ZUMO_STATES
+	{
+		INIT,
+		USER,
+		CORRIDOR,
+		ROOM,
+		JUNTION,
+		RETURN
+	};
+
 	ZState();
 	virtual ~ZState();
 
@@ -26,22 +37,15 @@ public:
 
 	bool GetIsStateFinished() const { return m_bStateFinished; };
 
-	enum ZUMO_STATES
-	{
-		INIT,
-		USER,
-		CORRIDOR,
-		ROOM,
-		JUNTION,
-		RETURN
-	};
-
+	ZUMO_STATES GetNextState() { return m_eNextState; };
 
 protected:
 
 	unsigned int m_iStateNumber = -1;
 
 	bool m_bStateFinished = false;
+
+	ZUMO_STATES m_eNextState;
 };
 
 

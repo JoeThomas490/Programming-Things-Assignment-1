@@ -1,6 +1,7 @@
 
 #include "ZStateInit.h"
 #include "ZStateUser.h"
+#include "ZStateCorridor.h"
 
 #include "InputManager.h"
 #include "Motors.h"
@@ -41,15 +42,17 @@ ZState* m_pCurrentState;
 
 void setup()
 {
-	m_aStateList = new ZState*[2];
+	m_aStateList = new ZState*[3];
 
 	ZStateInit* initState = new ZStateInit();
 	ZStateUser* userState = new ZStateUser();
+	ZStateCorridor* corridorState = new ZStateCorridor();
 
 	m_gMotors = MotorsClass::GetMotorInstance();
 
 	AddState(initState);
 	AddState(userState);
+	AddState(corridorState);
 
 	//Set start state as init state
 	m_eZumoState = ZState::ZUMO_STATES::INIT;
@@ -70,7 +73,7 @@ void setup()
 
 	runMotors = false;
 
-	ChangeState(0);
+	ChangeState((int)ZState::ZUMO_STATES::INIT);
 }
 
 //Main Loop
@@ -78,12 +81,11 @@ void loop()
 {
 	InputManagerClass::HandleInput();
 
-
 	if (m_pCurrentState != nullptr)
 	{
 		if (m_pCurrentState->GetIsStateFinished())
 		{
-			ChangeState(m_pCurrentState->GetStateNumber() + 1);
+			ChangeState((int) m_pCurrentState->GetNextState());
 		}
 
 		m_pCurrentState->UpdateState();

@@ -1,7 +1,7 @@
 // ZStateCorridor.h
 
-#ifndef _ZSTATECORRIDOR_h
-#define _ZSTATECORRIDOR_h
+#ifndef _ZSTATECORRIDOR_H
+#define _ZSTATECORRIDOR_H
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "Arduino.h"
@@ -10,22 +10,25 @@
 #endif
 
 #include "ZState.h"
-#include "Motors.h"
 
-class ZStateCorridorClass : public ZState
+class ZStateCorridor : public ZState
 {
  protected:
 
 
 public:
-	virtual ~ZStateCorridorClass();
+	virtual ~ZStateCorridor();
 
 	virtual void InitState();
 	virtual void UpdateState();
 	virtual void StopState();
-};
 
-extern ZStateCorridorClass ZStateCorridor;
+
+private:
+	
+	ReflectanceArrayClass m_reflectanceArray;
+	MotorsClass m_motors;
+};
 
 #endif
 

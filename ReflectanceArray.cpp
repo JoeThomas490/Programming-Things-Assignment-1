@@ -75,7 +75,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 	{
 		//We've hit a wall
 		//Stop moving and tell user
-		MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
+		//MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
 #if PRINT_WALL_HIT_DATA
 		SPRINT(Wall hit!);
 #endif

@@ -72,6 +72,13 @@ void  MotorsClass::SetMotorSpeeds(int pLeftSpeed, int pRightSpeed)
 	ClampMotorSpeed(pLeftSpeed);
 	ClampMotorSpeed(pRightSpeed);
 
+#if PRINT_MOTOR_SPEED
+	SPRINT(Changing motor speeds to : );
+	Serial.print(pLeftSpeed);
+	Serial.print("\t");
+	Serial.print(pRightSpeed);
+#endif
+
 	motors.setSpeeds(pLeftSpeed, pRightSpeed);
 	m_iLeftMotorSpeed = pLeftSpeed;
 	m_iRightMotorSpeed = pRightSpeed;
@@ -92,7 +99,7 @@ void MotorsClass::SetLeftMotorSpeed(int pLeftSpeed)
 //Parameters: 
 //2.Right motor speed
 void  MotorsClass::SetRightMotorSpeed(int pRightSpeed)
-{	
+{
 	ClampMotorSpeed(pRightSpeed);
 
 	motors.setSpeeds(m_iLeftMotorSpeed, pRightSpeed);

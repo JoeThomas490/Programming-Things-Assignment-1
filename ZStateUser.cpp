@@ -11,6 +11,8 @@ ZStateUser::~ZStateUser()
 void ZStateUser::InitState()
 {
 	SPRINT(Initialising USER State);
+
+	m_bStateFinished = false;
 }
 
 void ZStateUser::UpdateState()
@@ -38,7 +40,11 @@ void ZStateUser::UpdateState()
 	if (InputManagerClass::IsKeyPressed('d'))
 	{
 		MotorsClass::GetMotorInstance().Turn(1, 50, false);
+	}
 
+	if (InputManagerClass::IsKeyPressed(32))
+	{
+		MotorsClass::GetMotorInstance().Turn90(1, false);
 	}
 }
 
