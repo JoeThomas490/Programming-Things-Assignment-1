@@ -60,6 +60,8 @@ void setup()
 	// Play a little welcome song
 	buzzer.play(">g32>>c32");
 
+	SPRINT(Press button on Zumo to begin..);
+
 	// Wait for the user button to be pressed and released
 	button.waitForButton();
 
@@ -213,8 +215,9 @@ void ChangeState(ZState* mState)
 {
 	int stateNumber = mState->GetStateNumber();
 
-	SPRINT("Changing to state number : ");
-	Serial.print("\t" + stateNumber);
+	SPRINT(Changing to state number : );
+	Serial.print("\t");
+	Serial.print(stateNumber);
 
 	if (m_pCurrentState == nullptr)
 	{
@@ -231,8 +234,9 @@ void ChangeState(ZState* mState)
 
 void ChangeState(int mStateNum)
 {
-	SPRINT("Changing to state number : ");
-	Serial.print("\t" + mStateNum);
+	SPRINT(Changing to state number : );
+	Serial.print("\t");
+	Serial.print(mStateNum);
 
 
 	if (m_pCurrentState == nullptr)

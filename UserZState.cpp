@@ -10,7 +10,7 @@ UserZState::~UserZState()
 
 void UserZState::InitState()
 {
-	SPRINT("INITIALISING USER STATE");
+	SPRINT(Initialising USER State);
 }
 
 void UserZState::UpdateState()
@@ -44,5 +44,5 @@ void UserZState::UpdateState()
 
 void UserZState::StopState()
 {
-	SPRINT("STOPPING USER STATE");
+	SPRINT(Stopping USER State);
 }

@@ -15,9 +15,9 @@ void ZStateInit::InitState()
 	ReflectanceArrayClass::GetReflectanceArrayInstance().Init();
 	ReflectanceArrayClass::GetReflectanceArrayInstance().Calibrate();
 
-	SPRINT("INITIALISED INIT STATE");
+	SPRINT(Initialised INIT state);
 
-	SPRINT("Press 'p' to start!");
+	SPRINT(Press 'p' to start!);
 }
 
 void ZStateInit::UpdateState()
@@ -30,5 +30,5 @@ void ZStateInit::UpdateState()
 
 void ZStateInit::StopState()
 {
-	SPRINT("STOPPING INIT STATE");
+	SPRINT(Stopping INIT State);
 }

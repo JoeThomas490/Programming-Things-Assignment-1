@@ -20,16 +20,14 @@ void InputManagerClass::HandleInput()
 		int input = Serial.read();
 
 #if PRINT_INPUT
-		SPRINT("Key pressed : ");
-		Serial.print("\t" + input);
-		Serial.print("\t" + (char)input);
+		SPRINT(Key pressed : );
+		Serial.print("\t");
+		Serial.print((char)input);
 #endif
 		//Takeaway 32 as this is our starting value in the ASCII range
 		input -= 32;
 		//Use the value of input as the index within the array to set to true
 		m_aInputQueue[input] = true;
-
-
 	}
 }
 
@@ -49,7 +47,7 @@ bool InputManagerClass::IsKeyPressed(const char key)
 	//Check whether the key is in range
 	if (asciiVal < 32 || asciiVal > 127)
 	{
-		SPRINT("Key entered out of range");
+		SPRINT(Key entered out of range);
 		Serial.print("\t");
 		Serial.print(key);
 		return false;

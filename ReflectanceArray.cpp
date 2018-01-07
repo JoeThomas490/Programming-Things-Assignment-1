@@ -14,7 +14,7 @@ void ReflectanceArrayClass::Init()
 		m_aSensorArray[i] = 0;
 	}
 
-	SPRINT("Initialised Reflectance Array class.");
+	SPRINT(Initialised Reflectance Array class.);
 }
 
 void ReflectanceArrayClass::Calibrate()
@@ -27,7 +27,7 @@ void ReflectanceArrayClass::Calibrate()
 	pinMode(13, OUTPUT);
 	digitalWrite(13, HIGH);
 
-	SPRINT("Calibrating Reflectance Array...");
+	SPRINT(Calibrating Reflectance Array...);
 	int i;
 	for (i = 0; i < 80; i++)
 	{
@@ -48,7 +48,7 @@ void ReflectanceArrayClass::Calibrate()
 	//Set motors to not move
 	MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
 
-	SPRINT("Finished calibrating...");
+	SPRINT(Finished calibrating...);
 }
 
 ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
@@ -77,7 +77,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 		//Stop moving and tell user
 		MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
 #if PRINT_WALL_HIT_DATA
-		SPRINT("Wall hit!");
+		SPRINT(Wall hit!);
 #endif
 		//Switch to USER state
 		//m_eZumoState = ZState::ZUMO_STATES::USER;
@@ -97,7 +97,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 	{
 		//Turn right away from wall
 #if PRINT_WALL_HIT_DATA
-		SPRINT("Wall hit on left!");
+		SPRINT(Wall hit on left!);
 #endif
 
 		hitData.hit = true;
@@ -112,7 +112,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 	{
 		//Turn left away from wall
 #if PRINT_WALL_HIT_DATA
-		SPRINT("Wall hit on right!");
+		SPRINT(Wall hit on right!);
 #endif
 
 		hitData.hit = true;
