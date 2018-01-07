@@ -17,7 +17,6 @@ void ZStateUser::InitState()
 
 void ZStateUser::UpdateState()
 {
-<<<<<<< HEAD
 	//if (!m_bWaitingForDirection)
 	//{
 	//	CheckMovementInput();
@@ -27,37 +26,6 @@ void ZStateUser::UpdateState()
 	//{
 	//	CheckDirectionInput();
 	//}
-=======
-	if (InputManagerClass::IsKeyPressed('w'))
-	{
-		MotorsClass::GetMotorInstance().SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
-
-	}
-	if (InputManagerClass::IsKeyPressed('s'))
-	{
-		if (MotorsClass::GetLeftMotorSpeed() != 0 && MotorsClass::GetRightMotorSpeed() != 0)
-		{
-			MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
-		}
-		else
-		{
-			MotorsClass::GetMotorInstance().SetMotorSpeeds(-RUN_SPEED, -RUN_SPEED);
-		}
-	}
-	if (InputManagerClass::IsKeyPressed('a'))
-	{
-		MotorsClass::GetMotorInstance().Turn(-1, 50, false);
-	}
-	if (InputManagerClass::IsKeyPressed('d'))
-	{
-		MotorsClass::GetMotorInstance().Turn(1, 50, false);
-	}
-
-	if (InputManagerClass::IsKeyPressed(32))
-	{
-		MotorsClass::GetMotorInstance().Turn90(1, false);
-	}
->>>>>>> parent of d5f9035... Added ability to go from USER state to CORRIDOR state by pressing 'c' when in USER state.
 }
 
 void ZStateUser::StopState()
