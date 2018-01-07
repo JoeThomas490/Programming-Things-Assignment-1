@@ -1,20 +1,20 @@
-#include "InitZState.h"
+#include "ZStateInit.h"
 
 
-InitZState::InitZState()
+ZStateInit::ZStateInit()
 {
 }
 
-InitZState::~InitZState()
+ZStateInit::~ZStateInit()
 {
 }
 
-void InitZState::InitState()
+void ZStateInit::InitState()
 {
 	SPRINT("INITIALISED INIT STATE");
 }
 
-void InitZState::UpdateState()
+void ZStateInit::UpdateState()
 {
 	if (InputManagerClass::IsKeyPressed('p'))
 	{
@@ -23,7 +23,7 @@ void InitZState::UpdateState()
 	}
 }
 
-void InitZState::StopState()
+void ZStateInit::StopState()
 {
 	SPRINT("STOPPING INIT STATE");
 }

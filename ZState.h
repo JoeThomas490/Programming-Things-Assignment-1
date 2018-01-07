@@ -25,6 +25,17 @@ public:
 
 	bool GetIsStateFinished() const { return m_bStateFinished; };
 
+	enum ZUMO_STATES
+	{
+		INIT,
+		USER,
+		CORRIDOR,
+		ROOM,
+		JUNTION,
+		RETURN
+	};
+
+
 protected:
 
 	unsigned int m_iStateNumber = -1;

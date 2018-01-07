@@ -19,13 +19,18 @@ protected:
 
 public:
 
-	void init();
+	static MotorsClass& GetMotorInstance()
+	{
+		static MotorsClass* instance = new MotorsClass();
 
-	static void Turn(const int direction, int delayMs, bool carryOn);
-	static void Turn90(const int direction, bool carryOn);
-	static void SetMotorSpeeds(int pLeftSpeed, int pRightSpeed);
-	static void SetLeftMotorSpeed(int pLeftSpeed);
-	static void SetRightMotorSpeed(int pRightSpeed);
+		return *instance;
+	}
+
+	void Turn(const int direction, int delayMs, bool carryOn);
+	void Turn90(const int direction, bool carryOn);
+	void SetMotorSpeeds(int pLeftSpeed, int pRightSpeed);
+	void SetLeftMotorSpeed(int pLeftSpeed);
+	void SetRightMotorSpeed(int pRightSpeed);
 
 	static int GetLeftMotorSpeed() { return m_iLeftMotorSpeed; };
 	static int GetRightMotorSpeed() { return m_iRightMotorSpeed; };
@@ -36,7 +41,6 @@ private:
 private:
 
 	static ZumoMotors motors;
-
 
 	static int m_iLeftMotorSpeed;
 	static int m_iRightMotorSpeed;

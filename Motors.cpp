@@ -3,12 +3,6 @@
 int MotorsClass::m_iLeftMotorSpeed;
 int MotorsClass::m_iRightMotorSpeed;
 
-void MotorsClass::init()
-{
-
-
-}
-
 //A function to handle turning the Zumo left or right
 //Parameters : 
 //1.Pass it -1 for left, 1 for right. 
