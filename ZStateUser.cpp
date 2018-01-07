@@ -42,9 +42,19 @@ void ZStateUser::UpdateState()
 		MotorsClass::GetMotorInstance().Turn(1, 50, false);
 	}
 
-	if (InputManagerClass::IsKeyPressed(32))
+	if (InputManagerClass::IsKeyPressed('9'))
+	{
+		MotorsClass::GetMotorInstance().Turn90(-1, false);
+	}
+	if (InputManagerClass::IsKeyPressed('0'))
 	{
 		MotorsClass::GetMotorInstance().Turn90(1, false);
+	}
+
+	if (InputManagerClass::IsKeyPressed('c'))
+	{
+		m_eNextState = ZUMO_STATES::CORRIDOR;
+		m_bStateFinished = true;
 	}
 }
 
