@@ -1,4 +1,4 @@
-#include "../ReflectanceArray.h"
+#include "ReflectanceArray.h"
 
 ReflectanceArrayClass::~ReflectanceArrayClass()
 {

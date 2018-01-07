@@ -1,4 +1,4 @@
-#include "../Corridor.h"
+#include "include\Corridor.h"
 
 Corridor::Corridor()
 {
