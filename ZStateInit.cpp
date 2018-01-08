@@ -19,7 +19,8 @@ void ZStateInit::InitState()
 	ReflectanceArrayClass::GetReflectanceArrayInstance().Init();
 	ReflectanceArrayClass::GetReflectanceArrayInstance().Calibrate();
 
-	m_eNextState = ZUMO_STATES::CORRIDOR;
+
+	m_eNextState = ZUMO_STATES::USER;
 
 	SPRINT(Initialised INIT state);
 	SPRINT(Press 'p' to start!);

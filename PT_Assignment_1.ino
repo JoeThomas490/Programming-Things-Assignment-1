@@ -1,5 +1,12 @@
 
-#include "Sonar.h"
+#include <QTRSensors.h>
+#include <ZumoReflectanceSensorArray.h>
+#include <ZumoBuzzer.h>
+#include <Pushbutton.h>
+#include <NewPing.h>
+#include <LSM303.h>
+#include <Wire.h>
+
 #include "ZStateRoom.h"
 #include "ZStateInit.h"
 #include "ZStateUser.h"
@@ -8,13 +15,7 @@
 #include "InputManager.h"
 #include "Motors.h"
 #include "ReflectanceArray.h"
-
-#include <QTRSensors.h>
-#include <ZumoReflectanceSensorArray.h>
-#include <ZumoBuzzer.h>
-#include <Pushbutton.h>
-#include <NewPing.h>
-
+#include "Sonar.h"
 
 #include "HelperMacros.h"
 #include "Constants.h"
@@ -25,7 +26,6 @@ ZumoBuzzer buzzer;
 Pushbutton button(ZUMO_BUTTON);
 
 bool m_bRunBehaviour = true;
-
 
 ZState** m_aStateList;
 ZState* m_pCurrentState;
@@ -51,6 +51,8 @@ void setup()
 	AddState(corridorState);
 	AddState(roomState);
 
+	Wire.begin();
+
 	//Begin Serial communication
 	Serial.begin(9600);
 
@@ -59,13 +61,12 @@ void setup()
 
 	SPRINT(Press button on Zumo to begin..);
 
-	// Wait for the user button to be pressed and released
 	button.waitForButton();
 
 	// Play music and wait for it to finish before we start driving.
 	buzzer.play("L16 cdegreg4");
 
-	ChangeState((int)ZState::ZUMO_STATES::INIT);
+	ChangeState((int)ZState::ZUMO_STATES::USER);
 }
 
 //Main Loop

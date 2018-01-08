@@ -50,9 +50,9 @@ void ZStateRoom::ScanRoom()
 
 	int hitCount = 0;
 
-	for (int i = 0; i < 110; i++)
+	for (int i = 0; i < 100; i++)
 	{
-		if ((i > 10 && i <= 40) || (i > 60 && i <= 80))
+		if ((i > 10 && i <= 30) || (i > 50 && i <= 80))
 			m_motors.SetMotorSpeeds(-SCAN_SPEED, SCAN_SPEED);
 		else
 			m_motors.SetMotorSpeeds(SCAN_SPEED, -SCAN_SPEED);

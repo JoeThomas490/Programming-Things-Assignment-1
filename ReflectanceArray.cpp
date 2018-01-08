@@ -43,6 +43,8 @@ void ReflectanceArrayClass::Calibrate()
 	// Turn off LED to indicate we are through with calibration
 	digitalWrite(13, LOW);
 
+	delay(1000);
+
 	//Set motors to not move
 	MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
 
