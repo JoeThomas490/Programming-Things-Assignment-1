@@ -7,9 +7,13 @@
 	#include "WProgram.h"
 #endif
 
+#include "Constants.h"	
+#include "HelperMacros.h"
+
 #include "InputManager.h"	
 #include "Motors.h"
 #include "ReflectanceArray.h"
+#include "Sonar.h"
 
 class ZState
 {

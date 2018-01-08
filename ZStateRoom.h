@@ -23,11 +23,13 @@ public:
 
 private:
 
-	virtual void ScanRoom();
+	void ScanRoom();
+	bool PingSonar();
 
 private:
 
 	MotorsClass m_motors;
+	SonarClass m_sonar;
 
 	bool m_bScanFinished;
 	bool m_bScanningRoom;

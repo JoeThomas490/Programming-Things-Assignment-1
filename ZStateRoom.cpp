@@ -9,7 +9,7 @@ void ZStateRoom::InitState()
 	m_motors = MotorsClass::GetMotorInstance();
 
 	m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
-	delay(75);
+	delay(200);
 
 	m_motors.SetMotorSpeeds(0, 0);
 
@@ -48,10 +48,11 @@ void ZStateRoom::ScanRoom()
 	SPRINT(Scanning room....);
 	m_bScanningRoom = true;
 
-	int i;
-	for (i = 0; i < 100; i++)
+	int hitCount = 0;
+
+	for (int i = 0; i < 110; i++)
 	{
-		if ((i > 20 && i <= 40) || (i > 60 && i <= 80))
+		if ((i > 10 && i <= 40) || (i > 60 && i <= 80))
 			m_motors.SetMotorSpeeds(-SCAN_SPEED, SCAN_SPEED);
 		else
 			m_motors.SetMotorSpeeds(SCAN_SPEED, -SCAN_SPEED);
@@ -59,6 +60,17 @@ void ZStateRoom::ScanRoom()
 		// Since our counter runs to 80, the total delay will be
 		// 80*30 = 2400ms
 		delay(30);
+		
+
+		if (PingSonar())
+		{
+			hitCount++;
+		}
+	}
+
+	if(hitCount > 1)
+	{ 
+		SPRINT(Something has been found!!!);
 	}
 
 	// Turn off LED to indicate we are through with calibration
@@ -78,3 +90,20 @@ void ZStateRoom::ScanRoom()
 	m_bScanFinished = true;
 
 }
+
+bool ZStateRoom::PingSonar()
+{
+	float ping = m_sonar.PingCm();
+#if PRINT_SONAR_PING
+	SPRINT(Ping :);
+	Serial.print(ping);
+#endif
+
+	if (ping > 0)
+	{
+		SPRINT(PING HIT);
+		return true;
+	}
+
+	return false;
+};

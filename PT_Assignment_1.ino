@@ -1,4 +1,5 @@
 
+#include "Sonar.h"
 #include "ZStateRoom.h"
 #include "ZStateInit.h"
 #include "ZStateUser.h"
@@ -12,6 +13,8 @@
 #include <ZumoReflectanceSensorArray.h>
 #include <ZumoBuzzer.h>
 #include <Pushbutton.h>
+#include <NewPing.h>
+
 
 #include "HelperMacros.h"
 #include "Constants.h"

@@ -8,5 +8,6 @@
 #define PRINT_WALL_HIT_DATA 1
 #define PRINT_STATE_CHANGES 0
 #define PRINT_USER_INPUT 0
+#define PRINT_SONAR_PING 1
 
 #endif
