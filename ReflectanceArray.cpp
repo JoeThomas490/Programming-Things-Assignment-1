@@ -91,7 +91,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 	//Need to make these values variables for easier calibration
 	//Maybe use calibrated sensor value instead?
 
-	if (m_aSensorArray[0] > 900 || m_aSensorArray[1] > 900)
+	if (m_aSensorArray[0] > 600 || m_aSensorArray[1] > 400)
 	{
 		//Turn right away from wall
 #if PRINT_WALL_HIT_DATA
@@ -106,7 +106,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 		return hitData;
 	}
 	//If we detect darkness on the right two sensors then turn left
-	else if (m_aSensorArray[NUM_SENSORS - 1] > 900 || m_aSensorArray[NUM_SENSORS - 2] > 900)
+	else if (m_aSensorArray[NUM_SENSORS - 1] > 600 || m_aSensorArray[NUM_SENSORS - 2] > 400)
 	{
 		//Turn left away from wall
 #if PRINT_WALL_HIT_DATA
