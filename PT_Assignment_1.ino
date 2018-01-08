@@ -51,8 +51,6 @@ void setup()
 	AddState(corridorState);
 	AddState(roomState);
 
-	Wire.begin();
-
 	//Begin Serial communication
 	Serial.begin(9600);
 
