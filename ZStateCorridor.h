@@ -25,7 +25,13 @@ public:
 
 
 private:
-	
+
+	void CheckWallCollision();
+	void CheckUserInput();
+
+
+private:
+
 	ReflectanceArrayClass m_reflectanceArray;
 	MotorsClass m_motors;
 };

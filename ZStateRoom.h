@@ -25,7 +25,12 @@ private:
 
 	virtual void ScanRoom();
 
+private:
+
 	MotorsClass m_motors;
+
+	bool m_bScanFinished;
+	bool m_bScanningRoom;
 
 };
 

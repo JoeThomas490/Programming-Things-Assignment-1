@@ -20,6 +20,17 @@ void ZStateCorridor::InitState()
 
 void ZStateCorridor::UpdateState()
 {
+	CheckWallCollision();
+	CheckUserInput();
+}
+
+void ZStateCorridor::StopState()
+{
+	SPRINT(Stopping CORRIDOR State);
+}
+
+void ZStateCorridor::CheckWallCollision()
+{
 	ReflectanceData hitData;
 
 	hitData = m_reflectanceArray.HandleReflectanceArray();
@@ -45,15 +56,24 @@ void ZStateCorridor::UpdateState()
 			}
 			else if (hitData.direction == 1)
 			{
-				m_motors.Turn(-1 ,50, true);
+				m_motors.Turn(-1, 50, true);
 			}
 		}
-		
+
 	}
 }
 
-void ZStateCorridor::StopState()
+void ZStateCorridor::CheckUserInput()
 {
-	SPRINT(Stopping CORRIDOR State);
+	//If spacebar key is pressed or 's'
+	if (InputManagerClass::IsKeyPressed(32) || InputManagerClass::IsKeyPressed('s'))
+	{
+		m_motors.SetMotorSpeeds(0, 0);
+		m_eNextState = ZUMO_STATES::USER;
+		m_bStateFinished = true;
+
+		SPRINT(Corridor behaviour stopped..);
+		SPRINT(Giving user control..);
+	}
 }
 

@@ -51,7 +51,7 @@ void  MotorsClass::Turn90(const int direction, bool carryOn)
 		break;
 	}
 
-	delay(300);
+	delay(320);
 
 	if (carryOn)
 	{

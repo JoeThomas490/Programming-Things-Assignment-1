@@ -36,7 +36,7 @@ ZState* m_pCurrentState;
 
 void setup()
 {
-	m_aStateList = new ZState*[3];
+	m_aStateList = new ZState*[4];
 
 	ZStateInit* initState = new ZStateInit();
 	ZStateUser* userState = new ZStateUser();
