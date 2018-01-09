@@ -16,7 +16,9 @@ void ZStateReturn::InitState()
 	m_motors.Turn90(1, false);
 	delay(20);
 
-	m_fCorridorTime = m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_fApproxLength;
+	m_pFromCorridor = m_pBuildingData->GetCurrentCorridor();
+
+	m_fCorridorTime = m_pFromCorridor->m_fApproxLength;
 	m_fStartTime = millis();
 
 	SPRINT(Approximate return time:);
@@ -36,22 +38,41 @@ void ZStateReturn::UpdateState()
 		SPRINT(Reached length of corridor. Stopping...);
 		m_motors.SetMotorSpeeds(0, 0);
 
-		m_eNextState = ZUMO_STATES::USER;
-		m_bStateFinished = true;
+		DIRECTION endDirection = m_pBuildingData->GetCurrentCorridor()->m_eDirectionFromParent;
+		if (endDirection == DIRECTION::LEFT)
+		{
+			m_motors.Turn90(1, false);
+		}
+		else if (endDirection == DIRECTION::RIGHT)
+		{
+			m_motors.Turn90(-1, false);
+		}
+
+		delay(50);
+
+		Corridor* nextCorridor = m_pBuildingData->GetParentCorridor(m_pFromCorridor);
+		if (nextCorridor == nullptr)
+		{
+			SPRINT(Reached end of all corridors(parent is null));
+			m_eNextState = ZUMO_STATES::USER;
+			m_bStateFinished = true;
+		}
+		else
+		{
+			m_fStartTime = millis();
+			m_fCorridorTime = nextCorridor->m_fApproxLength;
+
+			m_pFromCorridor = nextCorridor;
+
+			m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
+
+		}
 	}
 }
 
 void ZStateReturn::StopState()
 {
-	DIRECTION endDirection = m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_eDirectionFromParent;
-	if (endDirection == DIRECTION::LEFT)
-	{
-		m_motors.Turn90(1, false);
-	}
-	else if (endDirection == DIRECTION::RIGHT)
-	{
-		m_motors.Turn90(-1, false);
-	}
+	
 }
 
 void ZStateReturn::CheckWallCollision()
@@ -68,10 +89,7 @@ void ZStateReturn::CheckWallCollision()
 		{
 			m_motors.SetMotorSpeeds(0, 0);
 
-			m_bStateFinished = true;
-			m_eNextState = ZUMO_STATES::USER;
-
-			Serial.println("Returned to wall..");
+			SPRINT(Returned to wall..);
 		}
 
 		else if (hitData.sensorsHit == 1)

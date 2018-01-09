@@ -137,6 +137,8 @@ void ZStateUser::CheckStateChangeInput()
 
 void ZStateUser::CheckDirectionInput()
 {
+
+	static int corridorId = 0;
 	//If the 'r' key is pressed
 	if (InputManagerClass::IsKeyPressed('r'))
 	{
@@ -149,8 +151,11 @@ void ZStateUser::CheckDirectionInput()
 
 		//Increment current corridor
 		m_pBuildingData->m_iCurrentCorridor++;
-		m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_eDirectionFromParent = DIRECTION::RIGHT;
-		m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_pParentCorridor = &m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor - 1];
+		m_pBuildingData->GetCurrentCorridor()->m_eDirectionFromParent = DIRECTION::RIGHT;
+		m_pBuildingData->GetCurrentCorridor()->m_pParentCorridor = &m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor - 1];
+
+		corridorId++;
+		m_pBuildingData->GetCurrentCorridor()->ID = corridorId;
 
 		//Notify user
 		//SPRINT(Entering room on right..);
@@ -166,10 +171,11 @@ void ZStateUser::CheckDirectionInput()
 
 		//Increment current corridor
 		m_pBuildingData->m_iCurrentCorridor++;
-		m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_eDirectionFromParent = DIRECTION::LEFT;
-		m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_pParentCorridor = &m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor - 1];
+		m_pBuildingData->GetCurrentCorridor()->m_eDirectionFromParent = DIRECTION::LEFT;
+		m_pBuildingData->GetCurrentCorridor()->m_pParentCorridor = &m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor - 1];
 
-
+		corridorId++;
+		m_pBuildingData->GetCurrentCorridor()->ID = corridorId;
 		//Notify user
 		//SPRINT(Entering room on left..);
 	}

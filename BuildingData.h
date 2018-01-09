@@ -19,12 +19,13 @@ enum DIRECTION
 
 struct Corridor
 {
+	int ID;
 	float m_fApproxLength;
 	Corridor* m_pParentCorridor;
 	DIRECTION m_eDirectionFromParent;
 
 	Corridor()
-		: m_fApproxLength(0), m_pParentCorridor(nullptr)
+		: ID(0), m_fApproxLength(0), m_pParentCorridor(nullptr)
 		, m_eDirectionFromParent(INVALID)
 	{
 
@@ -46,6 +47,10 @@ public:
 
 	BuildingData();
 	~BuildingData();
+
+	Corridor* GetCurrentCorridor() { return &m_aCorridors[m_iCurrentCorridor]; };
+
+	Corridor* GetParentCorridor(Corridor* mChildCorridor);
 
 
 	Corridor m_aCorridors[10];

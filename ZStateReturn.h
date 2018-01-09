@@ -33,6 +33,8 @@ private:
 
 	ReflectanceArrayClass m_reflectanceArray;
 	MotorsClass m_motors;
+
+	Corridor* m_pFromCorridor;
 };
 
 
