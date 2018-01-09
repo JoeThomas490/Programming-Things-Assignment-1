@@ -1,4 +1,5 @@
 
+#include "BuildingData.h"
 #include <QTRSensors.h>
 #include <ZumoReflectanceSensorArray.h>
 #include <ZumoBuzzer.h>
@@ -30,6 +31,8 @@ bool m_bRunBehaviour = true;
 ZState** m_aStateList;
 ZState* m_pCurrentState;
 
+BuildingData m_buildingData;
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //																										//
 //									ARDUINO FUNCTIONS													//
@@ -45,6 +48,10 @@ void setup()
 	ZStateUser* userState = new ZStateUser();
 	ZStateCorridor* corridorState = new ZStateCorridor();
 	ZStateRoom* roomState = new ZStateRoom();
+
+	corridorState->SetBuildingDataPtr(&m_buildingData);
+	userState->SetBuildingDataPtr(&m_buildingData);
+	roomState->SetBuildingDataPtr(&m_buildingData);
 
 	AddState(initState);
 	AddState(userState);

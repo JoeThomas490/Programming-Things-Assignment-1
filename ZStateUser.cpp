@@ -134,8 +134,11 @@ void ZStateUser::CheckDirectionInput()
 		//Finish state
 		m_bStateFinished = true;
 
+		//Increment current corridor
+		m_pBuildingData->m_iCurrentCorridor++;
+
 		//Notify user
-		SPRINT(Entering room on right..);
+		//SPRINT(Entering room on right..);
 	}
 	//If '0' key is pressed
 	if (InputManagerClass::IsKeyPressed('l'))
@@ -146,14 +149,20 @@ void ZStateUser::CheckDirectionInput()
 		//Finish state
 		m_bStateFinished = true;
 
+		//Increment current corridor
+		m_pBuildingData->m_iCurrentCorridor++;
+
 		//Notify user
-		SPRINT(Entering room on left..);
+		//SPRINT(Entering room on left..);
 	}
 
 	if (InputManagerClass::IsKeyPressed('s'))
 	{
 		//Finish state
 		m_bStateFinished = true;
+
+		//Increment current corridor
+		m_pBuildingData->m_iCurrentCorridor++;
 
 		//Notify user
 		SPRINT(Carrying on forward..);

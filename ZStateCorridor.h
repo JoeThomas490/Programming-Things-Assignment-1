@@ -34,6 +34,8 @@ private:
 
 	ReflectanceArrayClass m_reflectanceArray;
 	MotorsClass m_motors;
+
+	float startTime, finishTime;
 };
 
 #endif

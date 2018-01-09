@@ -65,7 +65,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Zumo-Search-Robot;$(ProjectDir)..\..\..\..\Arduino\libraries\NewPing;$(ProjectDir)..\..\..\..\Arduino\libraries\ZumoMotors;$(ProjectDir)..\..\..\..\Arduino\libraries\ZumoReflectanceSensorArray;$(ProjectDir)..\..\..\..\Arduino\libraries\QTRSensors;$(ProjectDir)..\..\..\..\Arduino\libraries\ZumoBuzzer;$(ProjectDir)..\..\..\..\Arduino\libraries\Pushbutton;$(ProjectDir)..\..\..\..\Arduino\libraries\LSM303;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;$(ProjectDir)..\..\..\..\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr\;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Zumo-Search-Robot;$(ProjectDir)..\..\..\..\Arduino\libraries\QTRSensors;$(ProjectDir)..\..\..\..\Arduino\libraries\ZumoReflectanceSensorArray;$(ProjectDir)..\..\..\..\Arduino\libraries\ZumoBuzzer;$(ProjectDir)..\..\..\..\Arduino\libraries\Pushbutton;$(ProjectDir)..\..\..\..\Arduino\libraries\NewPing;$(ProjectDir)..\..\..\..\Arduino\libraries\LSM303;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;$(ProjectDir)..\..\..\..\Arduino\libraries\ZumoMotors;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;$(ProjectDir)..\..\..\..\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr\;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)__vm\.Zumo-Search-Robot.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;F_CPU=16000000L;ARDUINO=10805;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -91,9 +91,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BuildingData.h" />
     <ClInclude Include="Compass.h" />
     <ClInclude Include="Constants.h" />
-    <ClInclude Include="Corridor.h" />
     <ClInclude Include="HelperMacros.h" />
     <ClInclude Include="ReflectanceArray.h" />
     <ClInclude Include="Sonar.h" />
@@ -101,7 +101,6 @@
     <ClInclude Include="ZStateInit.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Motors.h" />
-    <ClInclude Include="Room.h" />
     <ClInclude Include="ZStateRoom.h" />
     <ClInclude Include="ZStateUser.h" />
     <ClInclude Include="ZState.h" />
@@ -109,15 +108,14 @@
     <ClInclude Include="__vm\.Zumo-Search-Robot.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BuildingData.cpp" />
     <ClCompile Include="Compass.cpp" />
-    <ClCompile Include="Corridor.cpp" />
     <ClCompile Include="ReflectanceArray.cpp" />
     <ClCompile Include="Sonar.cpp" />
     <ClCompile Include="ZStateCorridor.cpp" />
     <ClCompile Include="ZStateInit.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Motors.cpp" />
-    <ClCompile Include="Room.cpp" />
     <ClCompile Include="ZStateRoom.cpp" />
     <ClCompile Include="ZStateUser.cpp" />
     <ClCompile Include="ZState.cpp" />

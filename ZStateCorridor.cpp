@@ -10,18 +10,23 @@ void ZStateCorridor::InitState()
 
 	//Get singleton instance of reflectance array
 	m_reflectanceArray = ReflectanceArrayClass::GetReflectanceArrayInstance();
+
 	//Get singleton instance of motors
 	m_motors = MotorsClass::GetMotorInstance();
 
 	m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
 
 	m_bStateFinished = false;
+
+	startTime = millis();
 }
 
 void ZStateCorridor::UpdateState()
 {
 	CheckWallCollision();
 	CheckUserInput();
+
+	
 }
 
 void ZStateCorridor::StopState()
@@ -45,6 +50,24 @@ void ZStateCorridor::CheckWallCollision()
 
 			m_bStateFinished = true;
 			m_eNextState = ZUMO_STATES::USER;
+
+			//Building data stuff
+			{
+				//Get finishing time
+				finishTime = millis();
+				//Calculate overall time
+				float overallCorridorTime = finishTime - startTime;
+				overallCorridorTime = overallCorridorTime / 1000;
+				//Set approximate time in building data
+				m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_fApproxLength = overallCorridorTime;
+
+				SPRINT(Approximate corridor time : );
+				Serial.print(overallCorridorTime);
+				Serial.print("\t");
+				Serial.print("for corridor :");
+				Serial.print(m_pBuildingData->m_iCurrentCorridor);
+			}
+			
 		}
 
 		else if (hitData.sensorsHit == 1)

@@ -16,6 +16,8 @@
 #include "Sonar.h"
 #include "Compass.h"
 
+#include "BuildingData.h"
+
 class ZState
 {
 public:
@@ -44,6 +46,8 @@ public:
 
 	ZUMO_STATES GetNextState() { return m_eNextState; };
 
+	void SetBuildingDataPtr(BuildingData* mData) { m_pBuildingData = mData; };
+
 protected:
 
 	unsigned int m_iStateNumber = -1;
@@ -51,6 +55,9 @@ protected:
 	bool m_bStateFinished = false;
 
 	ZUMO_STATES m_eNextState;
+
+	BuildingData* m_pBuildingData;
+
 };
 
 

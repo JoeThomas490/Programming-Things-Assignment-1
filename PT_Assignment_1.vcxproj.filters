@@ -21,9 +21,6 @@
     <ClInclude Include="__vm\.PT_Assignment_1.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Room.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -37,9 +34,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ZState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Corridor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ZStateInit.h">
@@ -66,18 +60,15 @@
     <ClInclude Include="Sonar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BuildingData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Corridor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Motors.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Room.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ZState.cpp">
@@ -102,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Compass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildingData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
