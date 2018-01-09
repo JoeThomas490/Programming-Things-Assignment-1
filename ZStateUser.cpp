@@ -10,8 +10,9 @@ ZStateUser::~ZStateUser()
 
 void ZStateUser::InitState()
 {
+#if PRINT_STATE_CHANGES
 	SPRINT(Initialising USER State);
-
+#endif
 	//Make sure the state hasn't been finished
 	m_bStateFinished = false;
 	m_bWaitForDirection = false;
@@ -35,7 +36,9 @@ void ZStateUser::UpdateState()
 
 void ZStateUser::StopState()
 {
+#if PRINT_STATE_CHANGES
 	SPRINT(Stopping USER State);
+#endif
 }
 
 void ZStateUser::CheckMovementInput()
@@ -105,7 +108,7 @@ void ZStateUser::CheckStateChangeInput()
 		m_bWaitForDirection = true;
 
 
-		SPRINT(Corridor detected..);
+		//SPRINT(Corridor detected..);
 		SPRINT(Which direction ? [r]ight[l]eft or [s]traight);
 
 	}
@@ -118,7 +121,7 @@ void ZStateUser::CheckStateChangeInput()
 		m_bWaitForDirection = true;
 
 		//Notify user
-		SPRINT(Room detected..);
+		//SPRINT(Room detected..);
 		SPRINT(Which direction ? [r]ight  [l]eft or [s]traight );
 	}
 }

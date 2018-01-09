@@ -6,8 +6,9 @@ ZStateCorridor::~ZStateCorridor()
 
 void ZStateCorridor::InitState()
 {
+#if PRINT_STATE_CHANGES
 	SPRINT(Initialising CORRIDOR State);
-
+#endif
 	//Get singleton instance of reflectance array
 	m_reflectanceArray = ReflectanceArrayClass::GetReflectanceArrayInstance();
 
@@ -31,7 +32,9 @@ void ZStateCorridor::UpdateState()
 
 void ZStateCorridor::StopState()
 {
+#if PRINT_STATE_CHANGES
 	SPRINT(Stopping CORRIDOR State);
+#endif
 }
 
 void ZStateCorridor::CheckWallCollision()
@@ -75,11 +78,11 @@ void ZStateCorridor::CheckWallCollision()
 			//If we've hit something on the left
 			if (hitData.direction == -1)
 			{
-				m_motors.Turn(1, 50, true);
+				m_motors.Turn(1, 30, true);
 			}
 			else if (hitData.direction == 1)
 			{
-				m_motors.Turn(-1, 50, true);
+				m_motors.Turn(-1, 30, true);
 			}
 		}
 
@@ -95,8 +98,8 @@ void ZStateCorridor::CheckUserInput()
 		m_eNextState = ZUMO_STATES::USER;
 		m_bStateFinished = true;
 
-		SPRINT(Corridor behaviour stopped..);
-		SPRINT(Giving user control..);
+		/*SPRINT(Corridor behaviour stopped..);
+		SPRINT(Giving user control..);*/
 	}
 }
 

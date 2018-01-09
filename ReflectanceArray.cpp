@@ -14,7 +14,7 @@ void ReflectanceArrayClass::Init()
 		m_aSensorArray[i] = 0;
 	}
 
-	SPRINT(Initialised Reflectance Array class.);
+	//SPRINT(Initialised Reflectance Array class.);
 }
 
 void ReflectanceArrayClass::Calibrate()
@@ -25,7 +25,7 @@ void ReflectanceArrayClass::Calibrate()
 
 	digitalWrite(13, HIGH);
 
-	SPRINT(Calibrating Reflectance Array...);
+	//SPRINT(Calibrating Reflectance Array...);
 	int i;
 	for (i = 0; i < 80; i++)
 	{
@@ -48,7 +48,7 @@ void ReflectanceArrayClass::Calibrate()
 	//Set motors to not move
 	MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
 
-	SPRINT(Finished calibrating...);
+	//SPRINT(Finished calibrating...);
 }
 
 ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()

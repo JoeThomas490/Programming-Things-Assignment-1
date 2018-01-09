@@ -11,13 +11,15 @@ const int RUN_SPEED = MAX_SPEED / 2;
 //Speed in which to rotate in a scan
 const int SCAN_SPEED = 180;
 
-const int NINETY_DEGREE_TIME = 315;
+const int NINETY_DEGREE_TIME = 308;
 
 //Number of sensors in the reflectance sensor array
 const int NUM_SENSORS = 6;
 
 //How often to print debug data
 const int PRINT_FRAME_COUNT = 5;
+
+const int MAX_STATES = 5;
 
 
 namespace SONAR

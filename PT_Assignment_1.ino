@@ -28,7 +28,7 @@ Pushbutton button(ZUMO_BUTTON);
 
 bool m_bRunBehaviour = true;
 
-ZState** m_aStateList;
+ZState* m_aStateList[MAX_STATES];
 ZState* m_pCurrentState;
 
 BuildingData m_buildingData;
@@ -42,8 +42,6 @@ BuildingData m_buildingData;
 
 void setup()
 {
-	m_aStateList = new ZState*[4];
-
 	ZStateInit* initState = new ZStateInit();
 	ZStateUser* userState = new ZStateUser();
 	ZStateCorridor* corridorState = new ZStateCorridor();
@@ -121,10 +119,11 @@ void AddState(ZState* mState)
 
 void ChangeState(int mStateNum)
 {
+#if PRINT_STATE_CHANGES
 	SPRINT(Changing to state number : );
 	Serial.print("\t");
 	Serial.print(mStateNum);
-
+#endif
 
 	if (m_pCurrentState == nullptr)
 	{
