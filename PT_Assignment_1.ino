@@ -1,5 +1,3 @@
-
-#include "BuildingData.h"
 #include <QTRSensors.h>
 #include <ZumoReflectanceSensorArray.h>
 #include <ZumoBuzzer.h>
@@ -12,6 +10,7 @@
 #include "ZStateInit.h"
 #include "ZStateUser.h"
 #include "ZStateCorridor.h"
+#include "ZStateReturn.h"
 
 #include "InputManager.h"
 #include "Motors.h"
@@ -20,6 +19,8 @@
 
 #include "HelperMacros.h"
 #include "Constants.h"
+
+#include "BuildingData.h"
 
 
 ZumoBuzzer buzzer;
@@ -33,6 +34,12 @@ ZState* m_pCurrentState;
 
 BuildingData m_buildingData;
 
+ZStateUser m_userState;
+ZStateInit m_initState;
+ZStateCorridor m_corridorState;
+ZStateRoom m_roomState;
+ZStateReturn m_returnState;
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //																										//
 //									ARDUINO FUNCTIONS													//
@@ -42,19 +49,16 @@ BuildingData m_buildingData;
 
 void setup()
 {
-	ZStateInit* initState = new ZStateInit();
-	ZStateUser* userState = new ZStateUser();
-	ZStateCorridor* corridorState = new ZStateCorridor();
-	ZStateRoom* roomState = new ZStateRoom();
+	m_corridorState.SetBuildingDataPtr(&m_buildingData);
+	m_userState.SetBuildingDataPtr(&m_buildingData);
+	m_roomState.SetBuildingDataPtr(&m_buildingData);
+	m_returnState.SetBuildingDataPtr(&m_buildingData);
 
-	corridorState->SetBuildingDataPtr(&m_buildingData);
-	userState->SetBuildingDataPtr(&m_buildingData);
-	roomState->SetBuildingDataPtr(&m_buildingData);
-
-	AddState(initState);
-	AddState(userState);
-	AddState(corridorState);
-	AddState(roomState);
+	AddState(&m_initState);
+	AddState(&m_userState);
+	AddState(&m_corridorState);
+	AddState(&m_roomState);
+	AddState(&m_returnState);
 
 	//Begin Serial communication
 	Serial.begin(9600);

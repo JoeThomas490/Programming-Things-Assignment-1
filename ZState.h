@@ -28,8 +28,8 @@ public:
 		USER,
 		CORRIDOR,
 		ROOM,
+		RETURN,
 		JUNTION,
-		RETURN
 	};
 
 	ZState();

@@ -124,6 +124,15 @@ void ZStateUser::CheckStateChangeInput()
 		//SPRINT(Room detected..);
 		SPRINT(Which direction ? [r]ight  [l]eft or [s]traight );
 	}
+
+	if (InputManagerClass::IsKeyPressed('e'))
+	{
+		//Change the connected state to return behaviour (returns back down the corridor)
+		m_eNextState = ZUMO_STATES::RETURN;
+
+		//Set the state to be finished
+		m_bStateFinished = true;
+	}
 }
 
 void ZStateUser::CheckDirectionInput()
@@ -137,8 +146,11 @@ void ZStateUser::CheckDirectionInput()
 		//Finish state
 		m_bStateFinished = true;
 
+
 		//Increment current corridor
 		m_pBuildingData->m_iCurrentCorridor++;
+		m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_eDirectionFromParent = DIRECTION::RIGHT;
+		m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_pParentCorridor = &m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor - 1];
 
 		//Notify user
 		//SPRINT(Entering room on right..);
@@ -154,6 +166,9 @@ void ZStateUser::CheckDirectionInput()
 
 		//Increment current corridor
 		m_pBuildingData->m_iCurrentCorridor++;
+		m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_eDirectionFromParent = DIRECTION::LEFT;
+		m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_pParentCorridor = &m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor - 1];
+
 
 		//Notify user
 		//SPRINT(Entering room on left..);

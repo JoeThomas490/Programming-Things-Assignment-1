@@ -20,7 +20,7 @@ void ZStateInit::InitState()
 	ReflectanceArrayClass::GetReflectanceArrayInstance().Calibrate();
 
 
-	m_eNextState = ZUMO_STATES::USER;
+	m_eNextState = ZUMO_STATES::CORRIDOR;
 
 }
 
