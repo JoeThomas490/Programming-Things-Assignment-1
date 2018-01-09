@@ -30,9 +30,9 @@ void ReflectanceArrayClass::Calibrate()
 	for (i = 0; i < 80; i++)
 	{
 		if ((i > 10 && i <= 30) || (i > 50 && i <= 70))
-			MotorsClass::GetMotorInstance().SetMotorSpeeds(-200, 200);
+			MotorsClass::GetMotorInstance().SetMotorSpeeds(-SCAN_SPEED, SCAN_SPEED);
 		else
-			MotorsClass::GetMotorInstance().SetMotorSpeeds(200, -200);
+			MotorsClass::GetMotorInstance().SetMotorSpeeds(SCAN_SPEED, -SCAN_SPEED);
 		reflectanceSensors.calibrate();
 
 		// Since our counter runs to 80, the total delay will be

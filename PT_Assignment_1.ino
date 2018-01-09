@@ -64,7 +64,7 @@ void setup()
 	// Play music and wait for it to finish before we start driving.
 	buzzer.play("L16 cdegreg4");
 
-	ChangeState((int)ZState::ZUMO_STATES::USER);
+	ChangeState((int)ZState::ZUMO_STATES::INIT);
 }
 
 //Main Loop
@@ -110,27 +110,6 @@ void AddState(ZState* mState)
 	m_aStateList[stateCounter] = mState;
 	mState->SetStateNumber(stateCounter);
 	stateCounter++;
-}
-
-void ChangeState(ZState* mState)
-{
-	int stateNumber = mState->GetStateNumber();
-
-	SPRINT(Changing to state number : );
-	Serial.print("\t");
-	Serial.print(stateNumber);
-
-	if (m_pCurrentState == nullptr)
-	{
-		m_pCurrentState = m_aStateList[stateNumber];
-		m_pCurrentState->InitState();
-	}
-	else
-	{
-		m_pCurrentState->StopState();
-		m_pCurrentState = m_aStateList[stateNumber];
-		m_pCurrentState->InitState();
-	}
 }
 
 void ChangeState(int mStateNum)

@@ -9,7 +9,7 @@ void ZStateRoom::InitState()
 	m_motors = MotorsClass::GetMotorInstance();
 
 	m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
-	delay(200);
+	delay(150);
 
 	m_motors.SetMotorSpeeds(0, 0);
 
