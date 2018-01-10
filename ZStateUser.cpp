@@ -137,8 +137,6 @@ void ZStateUser::CheckStateChangeInput()
 
 void ZStateUser::CheckDirectionInput()
 {
-
-	static int corridorId = 0;
 	//If the 'r' key is pressed
 	if (InputManagerClass::IsKeyPressed('r'))
 	{
@@ -149,18 +147,17 @@ void ZStateUser::CheckDirectionInput()
 		m_bStateFinished = true;
 
 
-		//Increment current corridor
-		m_pBuildingData->m_iCurrentCorridor++;
-		m_pBuildingData->GetCurrentCorridor()->m_eDirectionFromParent = DIRECTION::RIGHT;
-		m_pBuildingData->GetCurrentCorridor()->m_pParentCorridor = &m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor - 1];
-
-		corridorId++;
-		m_pBuildingData->GetCurrentCorridor()->ID = corridorId;
-
+		//If we're moving into a new corridor
+		if (m_eNextState == ZUMO_STATES::CORRIDOR)
+		{
+			//Add a new corridor to our building data 
+			m_pBuildingData->AddCorridor(DIRECTION::RIGHT, m_pBuildingData->GetCurrentCorridor());
+		}
 		//Notify user
 		//SPRINT(Entering room on right..);
 	}
-	//If '0' key is pressed
+
+	//If 'l' key is pressed
 	if (InputManagerClass::IsKeyPressed('l'))
 	{
 		//Turn 90 degrees to the right
@@ -169,24 +166,22 @@ void ZStateUser::CheckDirectionInput()
 		//Finish state
 		m_bStateFinished = true;
 
-		//Increment current corridor
-		m_pBuildingData->m_iCurrentCorridor++;
-		m_pBuildingData->GetCurrentCorridor()->m_eDirectionFromParent = DIRECTION::LEFT;
-		m_pBuildingData->GetCurrentCorridor()->m_pParentCorridor = &m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor - 1];
+		//If we're moving into a new corridor
+		if (m_eNextState == ZUMO_STATES::CORRIDOR)
+		{
+			//Add a new corridor to our building data 
+			m_pBuildingData->AddCorridor(DIRECTION::LEFT, m_pBuildingData->GetCurrentCorridor());
+		}
 
-		corridorId++;
-		m_pBuildingData->GetCurrentCorridor()->ID = corridorId;
 		//Notify user
 		//SPRINT(Entering room on left..);
 	}
 
+	//If 's' key is pressed
 	if (InputManagerClass::IsKeyPressed('s'))
 	{
 		//Finish state
 		m_bStateFinished = true;
-
-		//Increment current corridor
-		m_pBuildingData->m_iCurrentCorridor++;
 
 		//Notify user
 		SPRINT(Carrying on forward..);

@@ -90,8 +90,6 @@ void ZStateReturn::CheckWallCollision()
 		if (hitData.sensorsHit > 1 && hitData.direction == 0)
 		{
 			m_motors.SetMotorSpeeds(0, 0);
-
-			SPRINT(Returned to wall..);
 		}
 
 		else if (hitData.sensorsHit == 1)

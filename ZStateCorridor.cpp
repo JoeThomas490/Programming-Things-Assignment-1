@@ -60,8 +60,9 @@ void ZStateCorridor::CheckWallCollision()
 				finishTime = millis();
 				//Calculate overall time
 				float overallCorridorTime = finishTime - startTime;
+
 				//Set approximate time in building data
-				m_pBuildingData->m_aCorridors[m_pBuildingData->m_iCurrentCorridor].m_fApproxLength = overallCorridorTime;
+				m_pBuildingData->GetCurrentCorridor()->m_fApproxLength = overallCorridorTime;
 
 				SPRINT(Approximate corridor time : );
 				Serial.print(overallCorridorTime/1000);

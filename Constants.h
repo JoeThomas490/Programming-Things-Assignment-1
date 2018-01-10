@@ -19,8 +19,14 @@ const int NUM_SENSORS = 6;
 //How often to print debug data
 const int PRINT_FRAME_COUNT = 5;
 
+//Maximum number of different states in list
 const int MAX_STATES = 5;
 
+//Maximum number of corridors allowed in building data
+const int MAX_CORRIDORS = 25;
+
+//Maximum number of rooms allowed for each corridor
+const int MAX_ROOMS = 4;
 
 namespace SONAR
 {
