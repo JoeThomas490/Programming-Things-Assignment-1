@@ -71,7 +71,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 	}
 
 	//If all the sensors bar 1 have been hit then stop
-	if (wallHitCounter == NUM_SENSORS - 2)
+	if (wallHitCounter == NUM_SENSORS / 2)
 	{
 		//We've hit a wall
 		//Stop moving and tell user
@@ -81,7 +81,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 #endif
 		//Switch to USER state
 		//m_eZumoState = ZState::ZUMO_STATES::USER;
-		
+
 		hitData.hit = true;
 		hitData.direction = 0;
 		hitData.sensorsHit = wallHitCounter;
@@ -93,7 +93,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 	//Need to make these values variables for easier calibration
 	//Maybe use calibrated sensor value instead?
 
-	if (m_aSensorArray[0] > 600 || m_aSensorArray[1] > 400)
+	if (m_aSensorArray[0] > 300 || m_aSensorArray[1] > 150)
 	{
 		//Turn right away from wall
 #if PRINT_WALL_HIT_DATA
@@ -108,7 +108,7 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 		return hitData;
 	}
 	//If we detect darkness on the right two sensors then turn left
-	else if (m_aSensorArray[NUM_SENSORS - 1] > 600 || m_aSensorArray[NUM_SENSORS - 2] > 400)
+	else if (m_aSensorArray[NUM_SENSORS - 1] > 300 || m_aSensorArray[NUM_SENSORS - 2] > 150)
 	{
 		//Turn left away from wall
 #if PRINT_WALL_HIT_DATA

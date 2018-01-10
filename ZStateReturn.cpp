@@ -12,9 +12,9 @@ void ZStateReturn::InitState()
 	m_bStateFinished = false;
 
 	m_motors.Turn90(1, false);
-	delay(20);
+	delay(250);
 	m_motors.Turn90(1, false);
-	delay(20);
+	delay(250);
 
 	m_pFromCorridor = m_pBuildingData->GetCurrentCorridor();
 
@@ -38,6 +38,8 @@ void ZStateReturn::UpdateState()
 		SPRINT(Reached length of corridor. Stopping...);
 		m_motors.SetMotorSpeeds(0, 0);
 
+		delay(500);
+
 		DIRECTION endDirection = m_pBuildingData->GetCurrentCorridor()->m_eDirectionFromParent;
 		if (endDirection == DIRECTION::LEFT)
 		{
@@ -48,7 +50,7 @@ void ZStateReturn::UpdateState()
 			m_motors.Turn90(-1, false);
 		}
 
-		delay(50);
+		delay(250);
 
 		Corridor* nextCorridor = m_pBuildingData->GetParentCorridor(m_pFromCorridor);
 		if (nextCorridor == nullptr)
