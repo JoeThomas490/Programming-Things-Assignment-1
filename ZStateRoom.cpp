@@ -50,15 +50,13 @@ void ZStateRoom::ScanRoom()
 
 	int hitCount = 0;
 
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 80; i++)
 	{
 		if ((i > 10 && i <= 30) || (i > 50 && i <= 80))
 			m_motors.SetMotorSpeeds(-SCAN_SPEED, SCAN_SPEED);
 		else
 			m_motors.SetMotorSpeeds(SCAN_SPEED, -SCAN_SPEED);
 
-		// Since our counter runs to 80, the total delay will be
-		// 80*30 = 2400ms
 		delay(30);
 		
 
@@ -70,6 +68,11 @@ void ZStateRoom::ScanRoom()
 
 	if(hitCount > 1)
 	{ 
+		Corridor* corridor = m_pBuildingData->GetCurrentCorridor();
+
+		Room* room = corridor->GetCurrentRoom();
+		room->m_bPingHit = true;
+
 		SPRINT(Something has been found!!!);
 	}
 

@@ -20,6 +20,28 @@ enum DIRECTION
 	STRAIGHT
 };
 
+
+//Structure containing data to do with a single room
+struct Room
+{
+	//ID associated with this room
+	int ID;
+	//Whether something was found in the room
+	bool m_bPingHit;
+	//Time it took to get to the room
+	float m_fTimeDownCorridor;
+
+	//Direction of room from corridor
+	DIRECTION m_eDirection;
+
+	Room()
+		: ID(-1), m_bPingHit(false), m_fTimeDownCorridor(0)
+		,m_eDirection(DIRECTION::INVALID)
+	{
+	}
+};
+
+
 //Structure to contain data to do with Corridors
 struct Corridor
 {
@@ -31,32 +53,52 @@ struct Corridor
 	Corridor* m_pParentCorridor;
 	//Direction to turn to get down this corridor
 	DIRECTION m_eDirectionFromParent;
+	//Array of rooms 
+	Room m_aRooms[MAX_ROOMS];
+	//Number of rooms within corridor
+	int m_iNumRooms;
 
+	//Default constructor
 	Corridor()
 		: ID(0), m_fApproxLength(0), m_pParentCorridor(nullptr)
-		, m_eDirectionFromParent(INVALID)
+		, m_eDirectionFromParent(INVALID), m_iNumRooms(0)
 	{
 	}
-};
 
-//Structure containing data to do with a single room
-struct Room
-{
-	//ID associated with this room
-	int ID;
-	//Whether something was found in the room
-	bool m_bPingHit;
-	//Time it took to get to the room
-	float m_fTimeDownCorridor;
-	//Corridor attached to this room
-	Corridor* m_pParentCorridor;
-	//Direction of room from corridor
-	DIRECTION m_eDirection;
-	
-	Room()
-		: ID(-1), m_bPingHit(false), m_fTimeDownCorridor(0)
-		, m_pParentCorridor(nullptr), m_eDirection(DIRECTION::INVALID)
+	//Add a room to the array
+	//Parameters:
+	//1.Approximate time down the corridor (in Ms)
+	//2.Direction from the corridor to room 
+	void AddRoom(float mApproxTime, DIRECTION mDirection)
 	{
+		//Get pointer to room we want to change
+		Room* room = &m_aRooms[m_iNumRooms];
+		//Set it's ID to the number of rooms we have
+		room->ID = m_iNumRooms;
+		//Set it's time down the corridor
+		room->m_fTimeDownCorridor = mApproxTime;
+		//Set it's direction from the corridor
+		room->m_eDirection = mDirection;
+		//Increment our number of rooms for this corridor
+		m_iNumRooms++;
+	}
+
+	//Get a pointer to a room for a given index
+	//Parameters:
+	//1.Index of room to get
+	//Returns:
+	//Pointer to chosen room
+	Room* GetRoom(int mIndx)
+	{
+		return &m_aRooms[mIndx];
+	}
+	
+	//Gets a pointer to a room that we're currently
+	//Returns:
+	//Pointer to current room
+	Room* GetCurrentRoom()
+	{
+		return &m_aRooms[m_iNumRooms - 1];
 	}
 };
 
