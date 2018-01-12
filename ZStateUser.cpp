@@ -157,7 +157,7 @@ void ZStateUser::CheckDirectionInput()
 		else if (m_eNextState == ZUMO_STATES::ROOM)
 		{
 			Corridor* currentCorridor = m_pBuildingData->GetCurrentCorridor();
-			currentCorridor->AddRoom(0, currentCorridor, DIRECTION::RIGHT);
+			currentCorridor->AddRoom(0, DIRECTION::RIGHT);
 		}
 		//Notify user
 		//SPRINT(Entering room on right..);
@@ -182,7 +182,7 @@ void ZStateUser::CheckDirectionInput()
 		else if (m_eNextState == ZUMO_STATES::ROOM)
 		{
 			Corridor* currentCorridor = m_pBuildingData->GetCurrentCorridor();
-			currentCorridor->AddRoom(0, currentCorridor, DIRECTION::LEFT);
+			currentCorridor->AddRoom(0, DIRECTION::LEFT);
 		}
 
 		//Notify user
