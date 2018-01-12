@@ -73,7 +73,7 @@ void setup()
 	// Play music and wait for it to finish before we start driving.
 	buzzer.play("L16 cdegreg4");
 
-	ChangeState((int)ZState::ZUMO_STATES::USER);
+	ChangeState((int)ZState::ZUMO_STATES::INIT);
 }
 
 //Main Loop

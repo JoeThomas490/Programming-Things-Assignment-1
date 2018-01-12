@@ -19,13 +19,6 @@ protected:
 
 public:
 
-	static MotorsClass& GetMotorInstance()
-	{
-		static MotorsClass* instance = new MotorsClass();
-
-		return *instance;
-	}
-
 	void Turn(const int direction, int delayMs, bool carryOn);
 	void Turn90(const int direction, bool carryOn);
 	void SetMotorSpeeds(int pLeftSpeed, int pRightSpeed);

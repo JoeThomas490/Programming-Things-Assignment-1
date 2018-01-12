@@ -25,14 +25,16 @@ void ReflectanceArrayClass::Calibrate()
 
 	digitalWrite(13, HIGH);
 
+	MotorsClass motors;
+
 	//SPRINT(Calibrating Reflectance Array...);
 	int i;
 	for (i = 0; i < 80; i++)
 	{
 		if ((i > 10 && i <= 30) || (i > 50 && i <= 70))
-			MotorsClass::GetMotorInstance().SetMotorSpeeds(-SCAN_SPEED, SCAN_SPEED);
+			motors.SetMotorSpeeds(-SCAN_SPEED, SCAN_SPEED);
 		else
-			MotorsClass::GetMotorInstance().SetMotorSpeeds(SCAN_SPEED, -SCAN_SPEED);
+			motors.SetMotorSpeeds(SCAN_SPEED, -SCAN_SPEED);
 		reflectanceSensors.calibrate();
 
 		// Since our counter runs to 80, the total delay will be
@@ -46,7 +48,7 @@ void ReflectanceArrayClass::Calibrate()
 	delay(1000);
 
 	//Set motors to not move
-	MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
+	motors.SetMotorSpeeds(0, 0);
 
 	//SPRINT(Finished calibrating...);
 }

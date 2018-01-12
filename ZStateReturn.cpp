@@ -6,8 +6,6 @@ ZStateReturn::~ZStateReturn()
 
 void ZStateReturn::InitState()
 {
-	m_motors = MotorsClass::GetMotorInstance();
-	m_reflectanceArray = ReflectanceArrayClass::GetReflectanceArrayInstance();
 
 	m_bStateFinished = false;
 
@@ -25,6 +23,8 @@ void ZStateReturn::InitState()
 	Serial.print(m_fCorridorTime);
 
 	m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
+
+	m_reflectanceArray = ReflectanceArrayClass::GetReflectanceArrayInstance();
 }
 
 void ZStateReturn::UpdateState()

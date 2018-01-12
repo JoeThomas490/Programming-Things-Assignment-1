@@ -34,6 +34,8 @@ private:
 
 	bool m_bWaitForDirection;
 
+	MotorsClass m_motors;
+
 };
 
 #endif

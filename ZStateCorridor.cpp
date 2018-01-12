@@ -9,17 +9,14 @@ void ZStateCorridor::InitState()
 #if PRINT_STATE_CHANGES
 	SPRINT(Initialising CORRIDOR State);
 #endif
-	//Get singleton instance of reflectance array
-	m_reflectanceArray = ReflectanceArrayClass::GetReflectanceArrayInstance();
-
-	//Get singleton instance of motors
-	m_motors = MotorsClass::GetMotorInstance();
 
 	m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
 
 	m_bStateFinished = false;
 
 	startTime = millis();
+
+	m_reflectanceArray = ReflectanceArrayClass::GetReflectanceArrayInstance();
 }
 
 void ZStateCorridor::UpdateState()

@@ -30,7 +30,7 @@ void CompassClass::Calibrate()
 	// in the magnetometer data.
 	SPRINT(Calibrating compass..);
 
-	MotorsClass::GetMotorInstance().SetMotorSpeeds(RUN_SPEED, -RUN_SPEED);
+	//MotorsClass::GetMotorInstance().SetMotorSpeeds(RUN_SPEED, -RUN_SPEED);
 
 	for (int index = 0; index < 70; index++)
 	{
@@ -46,7 +46,7 @@ void CompassClass::Calibrate()
 		delay(50);
 	}
 
-	MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
+	//MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
 
 	m_compass.m_max.x = runningMaxX;
 	m_compass.m_max.y = runningMaxY;

@@ -23,7 +23,7 @@ const int PRINT_FRAME_COUNT = 5;
 const int MAX_STATES = 5;
 
 //Maximum number of corridors allowed in building data
-const int MAX_CORRIDORS = 10;
+const int MAX_CORRIDORS = 5;
 
 //Maximum number of rooms allowed for each corridor
 const int MAX_ROOMS = 2;

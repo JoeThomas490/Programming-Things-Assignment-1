@@ -47,7 +47,7 @@ void ZStateUser::CheckMovementInput()
 	if (InputManagerClass::IsKeyPressed('w'))
 	{
 		//Set both motors to move the robot forward
-		MotorsClass::GetMotorInstance().SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
+		m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
 	}
 	//If the 's' key is pressed
 	if (InputManagerClass::IsKeyPressed('s'))
@@ -56,44 +56,44 @@ void ZStateUser::CheckMovementInput()
 		if (MotorsClass::GetLeftMotorSpeed() != 0 && MotorsClass::GetRightMotorSpeed() != 0)
 		{
 			//Stop motors
-			MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
+			m_motors.SetMotorSpeeds(0, 0);
 		}
 		//Otherwise put the robot in reverse
 		else
 		{
-			MotorsClass::GetMotorInstance().SetMotorSpeeds(-RUN_SPEED, -RUN_SPEED);
+			m_motors.SetMotorSpeeds(-RUN_SPEED, -RUN_SPEED);
 		}
 	}
 	//If the 'a' key is pressed
 	if (InputManagerClass::IsKeyPressed('a'))
 	{
 		//Turn slightly the left
-		MotorsClass::GetMotorInstance().Turn(-1, 50, false);
+		m_motors.Turn(-1, 50, false);
 	}
 	//If the 'd' key is pressed
 	if (InputManagerClass::IsKeyPressed('d'))
 	{
 		//Turn slightly the right
-		MotorsClass::GetMotorInstance().Turn(1, 50, false);
+		m_motors.Turn(1, 50, false);
 	}
 	//If the '9' key is pressed
 	if (InputManagerClass::IsKeyPressed('9'))
 	{
 		//Turn 90 degrees to the left
-		MotorsClass::GetMotorInstance().Turn90(-1, false);
+		m_motors.Turn90(-1, false);
 	}
 	//If '0' key is pressed
 	if (InputManagerClass::IsKeyPressed('0'))
 	{
 		//Turn 90 degrees to the right
-		MotorsClass::GetMotorInstance().Turn90(1, false);
+		m_motors.Turn90(1, false);
 	}
 
 	//If space bar has been pressed
 	if (InputManagerClass::IsKeyPressed(32))
 	{
 		//Stop robot
-		MotorsClass::GetMotorInstance().SetMotorSpeeds(0, 0);
+		m_motors.SetMotorSpeeds(0, 0);
 	}
 }
 
@@ -141,7 +141,7 @@ void ZStateUser::CheckDirectionInput()
 	if (InputManagerClass::IsKeyPressed('r'))
 	{
 		//Turn 90 degrees to the left
-		MotorsClass::GetMotorInstance().Turn90(1, false);
+		m_motors.Turn90(1, false);
 
 		//Finish state
 		m_bStateFinished = true;
@@ -167,7 +167,7 @@ void ZStateUser::CheckDirectionInput()
 	if (InputManagerClass::IsKeyPressed('l'))
 	{
 		//Turn 90 degrees to the right
-		MotorsClass::GetMotorInstance().Turn90(-1, false);
+		m_motors.Turn90(-1, false);
 
 		//Finish state
 		m_bStateFinished = true;

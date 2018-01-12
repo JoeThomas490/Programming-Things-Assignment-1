@@ -32,25 +32,25 @@ public void customGUI()
 }
 
 void keyPressed() {
-  if(key == 'w')
-  {
-    myPort.write('w');
-  }
-  else if(key == 's')
-  {
-    myPort.write('s');
-  }
-  else if(key == 'a')
-  {
-    myPort.write('a');
-  }
-  else if(key == 'd')
-  {
-    myPort.write('d');
-  }  
+  //if(key == 'w')
+  //{
+  //  myPort.write('w');
+  //}
+  //else if(key == 's')
+  //{
+  //  myPort.write('s');
+  //}
+  //else if(key == 'a')
+  //{
+  //  myPort.write('a');
+  //}
+  //else if(key == 'd')
+  //{
+  //  myPort.write('d');
+  //}  
+  
+  myPort.write(key);
 }
-
-
 
 void serialEvent(Serial xbee) {
   // See Tom Igoe's serial examples for more info

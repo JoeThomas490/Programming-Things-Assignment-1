@@ -16,9 +16,9 @@ void ZStateInit::InitState()
 	pinMode(13, OUTPUT);
 
 	InputManagerClass::Init();
+
 	ReflectanceArrayClass::GetReflectanceArrayInstance().Init();
 	ReflectanceArrayClass::GetReflectanceArrayInstance().Calibrate();
-
 
 	m_eNextState = ZUMO_STATES::CORRIDOR;
 
