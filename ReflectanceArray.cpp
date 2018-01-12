@@ -13,8 +13,6 @@ void ReflectanceArrayClass::Init()
 	{
 		m_aSensorArray[i] = 0;
 	}
-
-	//SPRINT(Initialised Reflectance Array class.);
 }
 
 void ReflectanceArrayClass::Calibrate()
@@ -45,10 +43,10 @@ void ReflectanceArrayClass::Calibrate()
 	// Turn off LED to indicate we are through with calibration
 	digitalWrite(13, LOW);
 
-	delay(1000);
-
 	//Set motors to not move
 	motors.SetMotorSpeeds(0, 0);
+
+
 
 	//SPRINT(Finished calibrating...);
 }
@@ -148,7 +146,6 @@ void ReflectanceArrayClass::DisplayArrayData()
 	}
 	Serial.print("\n");
 }
-
 
 ReflectanceArrayClass ReflectanceArray;
 

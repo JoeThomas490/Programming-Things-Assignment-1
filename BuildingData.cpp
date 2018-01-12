@@ -60,8 +60,9 @@ void BuildingData::AddCorridor(DIRECTION mDirection, Corridor * mpParentCorridor
 	//Set the parent corridor
 	newCorridor.m_pParentCorridor = mpParentCorridor;
 
+
 	//Set the ID of the corridor
-	static int idCounter = 0;
+	static int idCounter = 1;
 	newCorridor.ID = idCounter;
 	idCounter++;
 

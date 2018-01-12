@@ -23,8 +23,6 @@ void ZStateCorridor::UpdateState()
 {
 	CheckWallCollision();
 	CheckUserInput();
-
-	
 }
 
 void ZStateCorridor::StopState()

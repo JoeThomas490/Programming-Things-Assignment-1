@@ -10,6 +10,7 @@
 #endif
 
 #include "Constants.h"
+#include "HelperMacros.h"
 
 //Directions in which a corridor/room could be
 enum DIRECTION

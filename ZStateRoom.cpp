@@ -37,8 +37,6 @@ void ZStateRoom::StopState()
 
 void ZStateRoom::ScanRoom()
 {
-	// Wait 1 second and then begin automatic sensor calibration
-	// by rotating in place to sweep the sensors over the line
 	delay(1000);
 
 	digitalWrite(13, HIGH);
@@ -50,7 +48,7 @@ void ZStateRoom::ScanRoom()
 
 	for (int i = 0; i < 80; i++)
 	{
-		if ((i > 10 && i <= 30) || (i > 50 && i <= 80))
+		if ((i > 10 && i <= 30) || (i > 50 && i <= 70))
 			m_motors.SetMotorSpeeds(-SCAN_SPEED, SCAN_SPEED);
 		else
 			m_motors.SetMotorSpeeds(SCAN_SPEED, -SCAN_SPEED);
@@ -64,6 +62,8 @@ void ZStateRoom::ScanRoom()
 		}
 	}
 
+	m_motors.SetMotorSpeeds(0, 0);
+
 	if(hitCount > 1)
 	{ 
 		Corridor* corridor = m_pBuildingData->GetCurrentCorridor();
@@ -74,11 +74,8 @@ void ZStateRoom::ScanRoom()
 		SPRINT(Something has been found!!!);
 	}
 
-	// Turn off LED to indicate we are through with calibration
+	// Turn off LED to indicate we are finished with the scan
 	digitalWrite(13, LOW);
-
-	//Set motors to not move
-	m_motors.SetMotorSpeeds(0, 0);
 
 	SPRINT(Finished scanning...);
 

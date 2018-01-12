@@ -20,7 +20,7 @@ void ZStateReturn::InitState()
 	m_fStartTime = millis();
 
 	SPRINT(Approximate return time:);
-	Serial.print(m_fCorridorTime);
+	Serial.print(m_fCorridorTime/1000);
 
 	m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
 
@@ -53,6 +53,10 @@ void ZStateReturn::UpdateState()
 		delay(250);
 
 		Corridor* nextCorridor = m_pBuildingData->GetParentCorridor(m_pFromCorridor);
+		SPRINT(Moving into corridor);
+
+		Serial.print(nextCorridor->ID);
+
 		if (nextCorridor == nullptr)
 		{
 			SPRINT(Reached end of all corridors(parent is null));
