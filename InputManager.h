@@ -1,5 +1,3 @@
-// InputManager.h
-
 #ifndef _INPUTMANAGER_H_
 #define _INPUTMANAGER_H_
 
@@ -39,6 +37,8 @@ public:
 	//Main query function to see whether a key is currently pressed
 	//Parameters:
 	//1.Character to check is being pressed
+	//Returns:
+	//Whether key is pressed or not
 	static bool IsKeyPressed(const char key);
 };
 

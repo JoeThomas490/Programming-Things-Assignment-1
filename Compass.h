@@ -1,7 +1,5 @@
-// Compass.h
-
-#ifndef _COMPASS_h
-#define _COMPASS_h
+#ifndef _COMPASS_H_
+#define _COMPASS_H_
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "Arduino.h"

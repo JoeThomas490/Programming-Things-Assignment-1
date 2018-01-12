@@ -1,51 +1,68 @@
 #include "ZStateRoom.h"
 
+ZStateRoom::ZStateRoom()
+{
+}
+
 ZStateRoom::~ZStateRoom()
 {
 }
 
+//Virtual function for initialising state
 void ZStateRoom::InitState()
 {
+	//Move the robot forward slightly
 	m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
 	delay(150);
 
+	//And then stop
 	m_motors.SetMotorSpeeds(0, 0);
 
 	m_bScanFinished = false;
 	m_bScanningRoom = false;
-
 	m_bStateFinished = false;
 }
 
+//Virtual function for updating state (tick)
 void ZStateRoom::UpdateState()
 {
+	//If we're not already scanning the room
 	if (m_bScanningRoom == false)
 	{
+		//Call the function to trigger a scan
 		ScanRoom();
 	}
 	
+	//If the scan has been finished
 	if (m_bScanFinished == true)
 	{
+		//Finish the state and move into USER mode
 		m_eNextState = ZUMO_STATES::USER;
 		m_bStateFinished = true;
 	}
 }
 
+//Virtual function for stopping state
 void ZStateRoom::StopState()
 {
 }
 
+//Function to be called to trigger a scan
 void ZStateRoom::ScanRoom()
 {
 	delay(1000);
 
+	//Trigger the LED on pin 13
 	digitalWrite(13, HIGH);
 
 	SPRINT(Scanning room....);
+	//Trigger the scanning room bool
 	m_bScanningRoom = true;
 
+	//Number of hits counted
 	int hitCount = 0;
-
+	
+	//Loop through and rotate the robot
 	for (int i = 0; i < 80; i++)
 	{
 		if ((i > 10 && i <= 30) || (i > 50 && i <= 70))
@@ -56,19 +73,27 @@ void ZStateRoom::ScanRoom()
 		delay(30);
 		
 
+		//If we have got a ping hit
 		if (PingSonar())
 		{
+			//Increment the hit count
 			hitCount++;
 		}
 	}
 
+	//Stop the robot from rotating
 	m_motors.SetMotorSpeeds(0, 0);
 
+	//If we've hit more than once
 	if(hitCount > 1)
 	{ 
+		//Get the pointer to the current corridor we're on
 		Corridor* corridor = m_pBuildingData->GetCurrentCorridor();
 
+		//Get the pointer to the current room we're in
 		Room* room = corridor->GetCurrentRoom();
+
+		//Set the flag to say there's something in the room
 		room->m_bPingHit = true;
 
 		SPRINT(Something has been found!!!);
@@ -79,29 +104,35 @@ void ZStateRoom::ScanRoom()
 
 	SPRINT(Finished scanning...);
 
+	//Reverse the robot out the room
 	m_motors.SetMotorSpeeds(-RUN_SPEED, -RUN_SPEED);
-
 	delay(75);
-
 	m_motors.SetMotorSpeeds(0, 0);
 
-	m_bScanFinished = true;
 
+	//Set the scan to be finished
+	m_bScanFinished = true;
 }
 
+//Function to handle calling of sonar ping
+//Returns:
+//Whether the ping hit or not
 bool ZStateRoom::PingSonar()
 {
+	//Get the ping value from our sonar
 	float ping = m_sonar.PingCm();
 #if PRINT_SONAR_PING
 	SPRINT(Ping :);
 	Serial.print(ping);
 #endif
 
+	//If it's greater than 0 cm then it's a hit and
+	//return true
 	if (ping > 0)
 	{
-		SPRINT(PING HIT);
 		return true;
 	}
 
+	//Otherwise return false
 	return false;
 };

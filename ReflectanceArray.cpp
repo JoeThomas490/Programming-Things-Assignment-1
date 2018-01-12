@@ -4,9 +4,10 @@ ReflectanceArrayClass::~ReflectanceArrayClass()
 {
 }
 
+//Initialises the reflectance array object
 void ReflectanceArrayClass::Init()
 {
-	reflectanceSensors.init();
+	m_reflectanceSensors.init();
 
 	//Set all members in sensorArray to 0
 	for (int i = 0; i < NUM_SENSORS; i++)
@@ -15,12 +16,15 @@ void ReflectanceArrayClass::Init()
 	}
 }
 
+//Starts the calibration process for the reflectance array.
+//Spins around getting data from array for 2 seconds
 void ReflectanceArrayClass::Calibrate()
 {
 	// Wait 1 second and then begin automatic sensor calibration
 	// by rotating in place to sweep the sensors over the line
 	delay(1000);
 
+	//Turn the LED on pin 13 on
 	digitalWrite(13, HIGH);
 
 	MotorsClass motors;
@@ -33,7 +37,7 @@ void ReflectanceArrayClass::Calibrate()
 			motors.SetMotorSpeeds(-SCAN_SPEED, SCAN_SPEED);
 		else
 			motors.SetMotorSpeeds(SCAN_SPEED, -SCAN_SPEED);
-		reflectanceSensors.calibrate();
+		m_reflectanceSensors.calibrate();
 
 		// Since our counter runs to 80, the total delay will be
 		// 80*20 = 1600 ms.
@@ -46,15 +50,18 @@ void ReflectanceArrayClass::Calibrate()
 	//Set motors to not move
 	motors.SetMotorSpeeds(0, 0);
 
-
-
 	//SPRINT(Finished calibrating...);
 }
 
+//Main function to get reflectance array collision data
+//Returns:
+//ReflectanceData structure holding relevant collision data
 ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 {
+	//Collect new sensor data
 	ReadSensorData();
 
+	//Create a new reflectance data object
 	ReflectanceData hitData;
 
 	//Check to see if we've hit a wall
@@ -82,9 +89,9 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 		//Switch to USER state
 		//m_eZumoState = ZState::ZUMO_STATES::USER;
 
-		hitData.hit = true;
-		hitData.direction = 0;
-		hitData.sensorsHit = wallHitCounter;
+		hitData.m_bHit = true;
+		hitData.m_iDirection = 0;
+		hitData.m_iSensorsHit = wallHitCounter;
 
 		return hitData;
 	}
@@ -100,9 +107,9 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 		SPRINT(Wall hit on left!);
 #endif
 
-		hitData.hit = true;
-		hitData.direction = -1;
-		hitData.sensorsHit = 1;
+		hitData.m_bHit = true;
+		hitData.m_iDirection = -1;
+		hitData.m_iSensorsHit = 1;
 		//m_gMotors.Turn(1, 50, true);
 
 		return hitData;
@@ -115,9 +122,9 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 		SPRINT(Wall hit on right!);
 #endif
 
-		hitData.hit = true;
-		hitData.direction = 1;
-		hitData.sensorsHit = 1;
+		hitData.m_bHit = true;
+		hitData.m_iDirection = 1;
+		hitData.m_iSensorsHit = 1;
 
 		return hitData;
 		//m_gMotors.Turn(-1, 50, true);
@@ -126,17 +133,18 @@ ReflectanceData ReflectanceArrayClass::HandleReflectanceArray()
 	return hitData;
 }
 
+//Function to populate the sensor array with new values (called every frame)
 void ReflectanceArrayClass::ReadSensorData()
 {
 	//Get new data from reflectance sensors and put in array
-	reflectanceSensors.readLine(m_aSensorArray);
+	m_reflectanceSensors.readLine(m_aSensorArray);
 
 #if PRINT_ARRAY_DATA
 	DisplayArrayData();
 #endif
 }
 
-//Print out the sensor array data all in one line with tabs in between
+//Debug function to display the data gathered by the reflectance array
 void ReflectanceArrayClass::DisplayArrayData()
 {
 	for (int i = 0; i < NUM_SENSORS; i++)

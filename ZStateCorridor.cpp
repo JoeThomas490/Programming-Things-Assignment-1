@@ -1,60 +1,69 @@
 #include "ZStateCorridor.h"
 
+ZStateCorridor::ZStateCorridor()
+{
+}
+
 ZStateCorridor::~ZStateCorridor()
 {
 }
 
+//Purely virtual function for initialising state
 void ZStateCorridor::InitState()
 {
-#if PRINT_STATE_CHANGES
-	SPRINT(Initialising CORRIDOR State);
-#endif
-
-	m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
-
+	//Make sure state isn't already finished
 	m_bStateFinished = false;
 
-	startTime = millis();
-
+	//Get reference to the reflectance array instance
 	m_reflectanceArray = ReflectanceArrayClass::GetReflectanceArrayInstance();
+
+	//Set motors to move robot forward
+	m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
+
+	//Get the current elapsed time
+	m_fStartTime = millis();
 }
 
+//Purely virtual function for updating state (tick)
 void ZStateCorridor::UpdateState()
 {
+	//Check any collisions with the wall
 	CheckWallCollision();
+	//Check for any specific user input
 	CheckUserInput();
 }
 
+//Purely virtual function for stopping state
 void ZStateCorridor::StopState()
 {
-#if PRINT_STATE_CHANGES
-	SPRINT(Stopping CORRIDOR State);
-#endif
 }
 
+//Uses the reflectance array to check any wall collision
+//and moves out the way
 void ZStateCorridor::CheckWallCollision()
 {
-	ReflectanceData hitData;
-
-	hitData = m_reflectanceArray.HandleReflectanceArray();
+	//Get reflectance hit data from our reflectance array
+	ReflectanceData hitData = m_reflectanceArray.HandleReflectanceArray();
 
 	//If the reflectance array has detected a hit
-	if (hitData.hit == true)
+	if (hitData.m_bHit == true)
 	{
-		//If we've hit a wall
-		if (hitData.sensorsHit > 1 && hitData.direction == 0)
+		//If we've hit a wall head on
+		if (hitData.m_iSensorsHit > 1 && hitData.m_iDirection == 0)
 		{
+			//Stop the motors
 			m_motors.SetMotorSpeeds(0, 0);
 
+			//End the state and move onto USER state
 			m_bStateFinished = true;
 			m_eNextState = ZUMO_STATES::USER;
 
 			//Building data stuff
 			{
 				//Get finishing time
-				finishTime = millis();
+				m_fFinishTime = millis();
 				//Calculate overall time
-				float overallCorridorTime = finishTime - startTime;
+				float overallCorridorTime = m_fFinishTime - m_fStartTime;
 
 				//Set approximate time in building data
 				m_pBuildingData->GetCurrentCorridor()->m_fApproxLength = overallCorridorTime;
@@ -67,15 +76,16 @@ void ZStateCorridor::CheckWallCollision()
 			}
 			
 		}
-
-		else if (hitData.sensorsHit == 1)
+		//Otherwise if we've just clipped the side of a wall
+		else if (hitData.m_iSensorsHit == 1)
 		{
-			//If we've hit something on the left
-			if (hitData.direction == -1)
+			//If we've hit something on the left, move to the right
+			if (hitData.m_iDirection == -1)
 			{
 				m_motors.Turn(1, 30, true);
 			}
-			else if (hitData.direction == 1)
+			//If we've hit something on the right, move to the left
+			else if (hitData.m_iDirection == 1)
 			{
 				m_motors.Turn(-1, 30, true);
 			}
@@ -84,17 +94,17 @@ void ZStateCorridor::CheckWallCollision()
 	}
 }
 
+//Checks for certain key input
 void ZStateCorridor::CheckUserInput()
 {
 	//If spacebar key is pressed or 's'
 	if (InputManagerClass::IsKeyPressed(32) || InputManagerClass::IsKeyPressed('s'))
 	{
+		//Stop the robot
 		m_motors.SetMotorSpeeds(0, 0);
+		//Move onto the USER state
 		m_eNextState = ZUMO_STATES::USER;
 		m_bStateFinished = true;
-
-		/*SPRINT(Corridor behaviour stopped..);
-		SPRINT(Giving user control..);*/
 	}
 }
 

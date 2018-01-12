@@ -8,6 +8,7 @@ ZStateUser::~ZStateUser()
 {
 }
 
+//Virtual function for initialising state
 void ZStateUser::InitState()
 {
 #if PRINT_STATE_CHANGES
@@ -20,6 +21,7 @@ void ZStateUser::InitState()
 	m_eNextState = ZUMO_STATES::USER;
 }
 
+//Virtual function for updating state (tick)
 void ZStateUser::UpdateState()
 {
 	//If we're not waiting for a direction (running normally)
@@ -34,6 +36,7 @@ void ZStateUser::UpdateState()
 	}
 }
 
+//Virtual function for stopping state
 void ZStateUser::StopState()
 {
 #if PRINT_STATE_CHANGES
@@ -41,6 +44,7 @@ void ZStateUser::StopState()
 #endif
 }
 
+//Check key input to do with robot movement
 void ZStateUser::CheckMovementInput()
 {
 	//If the 'w' key is pressed
@@ -97,6 +101,7 @@ void ZStateUser::CheckMovementInput()
 	}
 }
 
+//Check key input to do with state changes
 void ZStateUser::CheckStateChangeInput()
 {
 	//If the 'c' key is pressed
@@ -135,6 +140,7 @@ void ZStateUser::CheckStateChangeInput()
 	}
 }
 
+//Check key input to do with directional state change
 void ZStateUser::CheckDirectionInput()
 {
 	//If the 'r' key is pressed

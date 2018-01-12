@@ -1,7 +1,5 @@
-// BuildingData.h
-
-#ifndef _BUILDINGDATA_H
-#define _BUILDINGDATA_H
+#ifndef _BUILDINGDATA_H_
+#define _BUILDINGDATA_H_
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "Arduino.h"
@@ -11,6 +9,15 @@
 
 #include "Constants.h"
 #include "HelperMacros.h"
+
+//*********************************************************************************************
+// File:			BuildingData.h
+// Description:		Class to hold all data to do with the building the robot is currently in
+//					such as corridors (with their lengths in time) and all rooms associated
+//					with that corridor.
+// Notes:			
+// Todo:			
+//*********************************************************************************************
 
 //Directions in which a corridor/room could be
 enum DIRECTION
