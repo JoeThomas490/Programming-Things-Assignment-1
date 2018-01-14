@@ -1,10 +1,4 @@
 
-
-/**
-
- */
-
-
 import processing.serial.*;
 import g4p_controls.*;
 
@@ -14,45 +8,123 @@ boolean canTurnRight;
 
 String potVal;
 
+enum ZUMO_STATES
+{
+  INIT,
+  USER,
+  CORRIDOR,
+  ROOM,
+  RETURN
+}
+
+ZUMO_STATES state;
+
 void setup() 
 {
+    createGUI();
+  
+  SwitchState(ZUMO_STATES.INIT);
+  
   size(1024, 768);
-
+ 
   String portName = "COM8";
   
   myPort = new Serial(this, portName, 9600);
-  
-  createGUI();
+ 
 }
 
-void keyPressed() {
-  //if(key == 'w')
-  //{
-  //  myPort.write('w');
-  //}
-  //else if(key == 's')
-  //{
-  //  myPort.write('s');
-  //}
-  //else if(key == 'a')
-  //{
-  //  myPort.write('a');
-  //}
-  //else if(key == 'd')
-  //{
-  //  myPort.write('d');
-  //}  
-  
+void keyPressed() 
+{
   myPort.write(key);
 }
 
-void serialEvent(Serial xbee) {
-  // See Tom Igoe's serial examples for more info
-  potVal = xbee.readStringUntil('\0'); // read incoming data until line feed
-  if (potVal != null) {
-    txtAreaConsole.appendText(potVal);
+void serialEvent(Serial xbee) 
+{
+  potVal = xbee.readStringUntil('/'); 
+  
+  if(potVal != null)
+  { 
+    if(potVal.charAt(0) == '@')
+    {
+       String[] split = split(potVal, ':');
+       if(split.length > 1)
+       {
+         print('\n');
+          print(split[2]);
+          if(split[1].equals("DATA"))
+          { 
+              if(split[2].equals("INIT"))
+              {
+                SwitchState(ZUMO_STATES.INIT);
+              }
+              else if(split[2].equals("CORRIDOR"))
+              {
+                SwitchState(ZUMO_STATES.CORRIDOR);
+              }
+              else if(split[2].equals("USER"))
+              {
+                SwitchState(ZUMO_STATES.USER);
+              }
+          }
+        }
+      }
+      else
+      {
+        //txtAreaConsole.appendText(potVal);
+      }
   }
 }
+
+void SwitchState(ZUMO_STATES newState)
+{
+  switch(newState)
+  {
+    case INIT:
+      ToggleMovementControls(false);
+      ToggleStateChangeControls(false);
+      btnStopForRoom.setVisible(false);
+    break;
+    
+    case CORRIDOR:
+      ToggleMovementControls(false);
+      ToggleStateChangeControls(false);
+      btnStopForRoom.setVisible(true);
+    break;
+    
+    case USER:
+      ToggleMovementControls(true);
+      ToggleStateChangeControls(true);
+      btnStopForRoom.setVisible(false);
+    break;
+  }
+  
+  state = newState;
+  
+  createGUI();
+  
+}
+
+void ToggleMovementControls(boolean toggle)
+{
+    btnForward.setVisible(toggle);
+    btnLeft.setVisible(toggle);
+    btnRight.setVisible(toggle);
+    btnDown.setVisible(toggle);
+    
+    btnRight90.setVisible(toggle);
+    btnLeft90.setVisible(toggle);
+}
+
+void ToggleStateChangeControls(boolean toggle)
+{
+    btnCorridorChange.setVisible(toggle);
+    btnRoomChange.setVisible(toggle);
+    
+    btnRightChange.setVisible(toggle);
+    btnLeftChange.setVisible(toggle);
+    btnStraightChange.setVisible(toggle);
+}
+
 
 void draw() 
 {

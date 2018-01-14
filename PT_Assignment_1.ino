@@ -124,11 +124,24 @@ void AddState(ZState* mState)
 void ChangeState(int mStateNum)
 {
 #if PRINT_STATE_CHANGES
-	SPRINT(Changing to state number : );
-	Serial.print("\t");
+	Serial.print("\nChanging to state number : ");
 	Serial.print(mStateNum);
+	Serial.print("/");
 #endif
+	switch ((ZState::ZUMO_STATES)mStateNum)
+	{
+	case ZState::ZUMO_STATES::INIT:
+		DPRINT(INIT);
+		break;
 
+	case ZState::ZUMO_STATES::CORRIDOR:
+		DPRINT(CORRIDOR);
+		break;
+		
+	case ZState::ZUMO_STATES::USER:
+		DPRINT(USER);
+		break;
+	}
 	if (m_pCurrentState == nullptr)
 	{
 		m_pCurrentState = m_aStateList[mStateNum];

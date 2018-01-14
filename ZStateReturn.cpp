@@ -47,8 +47,6 @@ void ZStateReturn::UpdateState()
 
 	//Calculate the current elapsed time for moving down this corridor
 	float elapsedTime = millis() - m_fStartTime;
-	SPRINT(-);
-	Serial.print(elapsedTime);
 
 	//If our elapsed time is greater than the length of the corridor
 	if (elapsedTime > m_fCorridorTime)

@@ -33,6 +33,38 @@ public void btnRight_click(GImageButton source, GEvent event) { //_CODE_:btnRigh
   myPort.write('d');
 } //_CODE_:btnRight:885903:
 
+public void btnStopForRoom_click(GButton source, GEvent event) { //_CODE_:btnStopForRoom:971482:
+  myPort.write(32);
+} //_CODE_:btnStopForRoom:971482:
+
+public void btnCorridorChange_click(GButton source, GEvent event) { //_CODE_:btnCorridorChange:627065:
+  myPort.write('c');
+} //_CODE_:btnCorridorChange:627065:
+
+public void btnRoomChange_click(GButton source, GEvent event) { //_CODE_:btnRoomChange:247543:
+  myPort.write('r');
+} //_CODE_:btnRoomChange:247543:
+
+public void btnRightChange_click(GButton source, GEvent event) { //_CODE_:btnRightChange:616344:
+  myPort.write('r');
+} //_CODE_:btnRightChange:616344:
+
+public void btnLeftChange_click(GButton source, GEvent event) { //_CODE_:btnLeftChange:440903:
+  myPort.write('l');
+} //_CODE_:btnLeftChange:440903:
+
+public void btnStraightChange_click(GButton source, GEvent event) { //_CODE_:btnStraightChange:418568:
+  myPort.write('s');
+} //_CODE_:btnStraightChange:418568:
+
+public void btnRight90_click(GImageButton source, GEvent event) { //_CODE_:btnRight90:662316:
+  myPort.write('0');
+} //_CODE_:btnRight90:662316:
+
+public void btnLeft90_click(GImageButton source, GEvent event) { //_CODE_:btnLeft90:787023:
+  myPort.write('9');
+} //_CODE_:btnLeft90:787023:
+
 
 
 // Create all the GUI controls. 
@@ -41,6 +73,7 @@ public void createGUI(){
   G4P.messagesEnabled(false);
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setCursor(ARROW);
+  GButton.useRoundCorners(false);
   surface.setTitle("Sketch Window");
   lblHeader = new GLabel(this, 440, 20, 250, 50);
   lblHeader.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
@@ -60,6 +93,35 @@ public void createGUI(){
   btnDown.addEventHandler(this, "btnDown_click");
   btnRight = new GImageButton(this, 640, 230, 100, 100, new String[] { "right-arrow.png", "right-arrow.png", "right-arrow.png" } );
   btnRight.addEventHandler(this, "btnRight_click");
+  btnStopForRoom = new GButton(this, 461, 229, 200, 100);
+  btnStopForRoom.setText("Stop for room");
+  btnStopForRoom.setTextBold();
+  btnStopForRoom.setLocalColorScheme(GCScheme.RED_SCHEME);
+  btnStopForRoom.addEventHandler(this, "btnStopForRoom_click");
+  btnCorridorChange = new GButton(this, 340, 460, 200, 100);
+  btnCorridorChange.setText("Move into new corridor");
+  btnCorridorChange.setTextBold();
+  btnCorridorChange.addEventHandler(this, "btnCorridorChange_click");
+  btnRoomChange = new GButton(this, 600, 460, 200, 100);
+  btnRoomChange.setText("Move into new room");
+  btnRoomChange.setTextBold();
+  btnRoomChange.addEventHandler(this, "btnRoomChange_click");
+  btnRightChange = new GButton(this, 600, 640, 200, 50);
+  btnRightChange.setText("RIGHT");
+  btnRightChange.setTextBold();
+  btnRightChange.addEventHandler(this, "btnRightChange_click");
+  btnLeftChange = new GButton(this, 340, 640, 200, 50);
+  btnLeftChange.setText("LEFT");
+  btnLeftChange.setTextBold();
+  btnLeftChange.addEventHandler(this, "btnLeftChange_click");
+  btnStraightChange = new GButton(this, 470, 580, 200, 50);
+  btnStraightChange.setText("AHEAD");
+  btnStraightChange.setTextBold();
+  btnStraightChange.addEventHandler(this, "btnStraightChange_click");
+  btnRight90 = new GImageButton(this, 650, 350, 80, 80, new String[] { "90-right.png", "90-right.png", "90-right.png" } );
+  btnRight90.addEventHandler(this, "btnRight90_click");
+  btnLeft90 = new GImageButton(this, 410, 350, 80, 80, new String[] { "90-left.png", "90-left.png", "90-left.png" } );
+  btnLeft90.addEventHandler(this, "btnLeft90_click");
 }
 
 // Variable declarations 
@@ -70,3 +132,11 @@ GImageButton btnForward;
 GImageButton btnLeft; 
 GImageButton btnDown; 
 GImageButton btnRight; 
+GButton btnStopForRoom; 
+GButton btnCorridorChange; 
+GButton btnRoomChange; 
+GButton btnRightChange; 
+GButton btnLeftChange; 
+GButton btnStraightChange; 
+GImageButton btnRight90; 
+GImageButton btnLeft90; 

@@ -1,7 +1,11 @@
 #ifndef _HELPERMACROS_H_
 #define _HELPERMACROS_H_
 
-#define SPRINT(txt) { Serial.print("\n"); Serial.print(millis()); Serial.print("\t\t"); Serial.print(#txt); Serial.print('\0'); };
+#define SPRINT(txt) { Serial.print("\n"); Serial.print("\t"); Serial.print(#txt); Serial.print("/"); };
+
+
+#define DPRINT(txt) { Serial.print("@:"); Serial.print("DATA:"); Serial.print(#txt); Serial.print(":"); Serial.print("/"); };	
+
 
 #define PRINT_ARRAY_DATA 0
 #define PRINT_MOTOR_SPEED 0
