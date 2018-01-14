@@ -69,6 +69,10 @@ void ZStateCorridor::CheckWallCollision()
 				Corridor* corridor = m_pBuildingData->GetCurrentCorridor();
 				for (int i = 0; i < corridor->m_iNumRooms; i++)
 				{
+					SPRINT(Adding);
+					Serial.print(" ");
+					Serial.print(corridor->GetRoom(i)->m_fTimeDownCorridor);
+					Serial.print(" onto corridor time");
 					overallCorridorTime += corridor->GetRoom(i)->m_fTimeDownCorridor;
 				}
 
@@ -78,8 +82,7 @@ void ZStateCorridor::CheckWallCollision()
 
 				SPRINT(Approximate corridor time : );
 				Serial.print(overallCorridorTime/1000);
-				Serial.print("\t");
-				Serial.print("for corridor :");
+				Serial.print(" for corridor : ");
 				Serial.print(m_pBuildingData->m_iCurrentCorridor);
 			}
 			

@@ -23,20 +23,20 @@ void ZStateReturn::InitState()
 	//Get the length of this corridor
 	m_fCorridorTime = m_pCurrentCorridor->m_fApproxLength;
 	
-	//Get the current elapsed time of the program
-	m_fStartTime = millis();
-
 	SPRINT(Approximate return time:);
 	Serial.print(m_fCorridorTime/1000);
 
 	//Turn through two 90 degree turns and have a delay 
 	//in between
 	m_motors.Turn90(1, false);
-	delay(250);
+	delay(500);
 	m_motors.Turn90(1, false);
-	delay(250);
+	delay(200);
 	//Start moving forward
 	m_motors.SetMotorSpeeds(RUN_SPEED, RUN_SPEED);
+
+	//Get the current elapsed time of the program
+	m_fStartTime = millis();
 }
 
 //Virtual function for updating state (tick)
@@ -47,6 +47,8 @@ void ZStateReturn::UpdateState()
 
 	//Calculate the current elapsed time for moving down this corridor
 	float elapsedTime = millis() - m_fStartTime;
+	SPRINT(-);
+	Serial.print(elapsedTime);
 
 	//If our elapsed time is greater than the length of the corridor
 	if (elapsedTime > m_fCorridorTime)

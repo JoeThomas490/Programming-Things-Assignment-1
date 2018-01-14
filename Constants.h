@@ -12,7 +12,7 @@ const int RUN_SPEED = MAX_SPEED / 2;
 const int SCAN_SPEED = 180;
 
 //Delay to add for 90 degree turn
-const int NINETY_DEGREE_TIME = 315;
+const int NINETY_DEGREE_TIME = 330;
 
 //Number of sensors in the reflectance sensor array
 const int NUM_SENSORS = 6;
