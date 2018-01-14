@@ -62,8 +62,16 @@ void ZStateCorridor::CheckWallCollision()
 			{
 				//Get finishing time
 				m_fFinishTime = millis();
-				//Calculate overall time
-				float overallCorridorTime = m_fFinishTime - m_fStartTime;
+				float currentCorridorTime = m_fFinishTime - m_fStartTime;
+				
+				float overallCorridorTime = currentCorridorTime;
+				//Get current corridor
+				Corridor* corridor = m_pBuildingData->GetCurrentCorridor();
+				for (int i = 0; i < corridor->m_iNumRooms; i++)
+				{
+					overallCorridorTime += corridor->GetRoom(i)->m_fTimeDownCorridor;
+				}
+
 
 				//Set approximate time in building data
 				m_pBuildingData->GetCurrentCorridor()->m_fApproxLength = overallCorridorTime;
@@ -102,6 +110,14 @@ void ZStateCorridor::CheckUserInput()
 	{
 		//Stop the robot
 		m_motors.SetMotorSpeeds(0, 0);
+
+		//Get finishing time
+		m_fFinishTime = millis();
+		//Calculate overall time
+		float overallCorridorTime = m_fFinishTime - m_fStartTime;
+		//Set room time
+		m_pBuildingData->GetCurrentCorridor()->AddRoom(overallCorridorTime, DIRECTION::INVALID);
+
 		//Move onto the USER state
 		m_eNextState = ZUMO_STATES::USER;
 		m_bStateFinished = true;

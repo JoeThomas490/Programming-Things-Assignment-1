@@ -23,12 +23,6 @@ void setup()
   myPort = new Serial(this, portName, 9600);
   
   createGUI();
-  customGUI();
-}
-
-public void customGUI()
-{
-  
 }
 
 void keyPressed() {
