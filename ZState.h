@@ -38,7 +38,7 @@ public:
 		CORRIDOR,
 		ROOM,
 		RETURN,
-		JUNTION,
+		RETURN_SINGLE,
 	};
 
 	ZState();
