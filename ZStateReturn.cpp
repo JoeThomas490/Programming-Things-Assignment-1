@@ -80,6 +80,11 @@ void ZStateReturn::UpdateState()
 		//Get the pointer to the next corridor we're moving into
 		//(The parent of our current corridor)
 		Corridor* nextCorridor = m_pBuildingData->GetParentCorridor(m_pCurrentCorridor);
+		
+		while (nextCorridor->m_iNumRooms < 1 && nextCorridor->m_pParentCorridor != nullptr)
+		{
+			nextCorridor = m_pBuildingData->GetParentCorridor(nextCorridor);
+		}
 
 		SPRINT(Moving into corridor);
 		Serial.print(nextCorridor->ID);
@@ -128,6 +133,9 @@ void ZStateReturn::CheckWallCollision()
 	//If the reflectance array has detected a hit
 	if (hitData.m_bHit == true)
 	{
+		//Increment approximate time to account for going off course
+		m_fCorridorTime += 100;
+
 		//If we've hit a wall
 		if (hitData.m_iSensorsHit > 1 && hitData.m_iDirection == 0)
 		{

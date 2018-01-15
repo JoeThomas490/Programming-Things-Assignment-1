@@ -84,8 +84,10 @@ void ZStateRoom::ScanRoom()
 	//Stop the robot from rotating
 	m_motors.SetMotorSpeeds(0, 0);
 
+	SPRINT(Finished scanning...);
+
 	//If we've hit more than once
-	if(hitCount > 1)
+	if(hitCount > 0)
 	{ 
 		//Get the pointer to the current corridor we're on
 		Corridor* corridor = m_pBuildingData->GetCurrentCorridor();
@@ -96,13 +98,18 @@ void ZStateRoom::ScanRoom()
 		//Set the flag to say there's something in the room
 		room->m_bPingHit = true;
 
-		SPRINT(Something has been found!!!);
+		SPRINT(Something has been found in Room );
+		Serial.print(room->ID);
+		Serial.print(" in corridor ");
+		Serial.print(corridor->ID);
+	}
+	else
+	{
+		SPRINT(Nothing found);
 	}
 
 	// Turn off LED to indicate we are finished with the scan
 	digitalWrite(13, LOW);
-
-	SPRINT(Finished scanning...);
 
 	//Reverse the robot out the room
 	m_motors.SetMotorSpeeds(-RUN_SPEED, -RUN_SPEED);
