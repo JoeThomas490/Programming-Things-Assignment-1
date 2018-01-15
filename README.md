@@ -1,7 +1,8 @@
-# Programming-Things-Assignment-1
+# Zumo Search Robot
+## Programming Things Assignment 1
 The first assignment for the Programming "Things" module in my final year.
 
-This involves us programming a small Zumo robot with an arduino board, ultrasonic sensor and xBee communications board to navigate a maze of corridors and rooms, imitating a search and rescue robot. It must be able to autonomously navigate corridors, scan rooms and return back through the building by itself.
+This involved us programming a small Zumo robot with an arduino board, ultrasonic sensor and xBee communications board to navigate a maze of corridors and rooms, imitating a search and rescue robot. It must be able to autonomously navigate corridors, scan rooms and return back through the building by itself.
 
 # Controls
 ## State
