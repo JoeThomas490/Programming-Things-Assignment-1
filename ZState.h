@@ -14,7 +14,6 @@
 #include "Motors.h"
 #include "ReflectanceArray.h"
 #include "Sonar.h"
-#include "Compass.h"
 
 #include "BuildingData.h"
 
