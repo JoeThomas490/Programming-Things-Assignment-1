@@ -92,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BuildingData.h" />
-    <ClInclude Include="Compass.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="HelperMacros.h" />
     <ClInclude Include="ReflectanceArray.h" />
@@ -110,7 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BuildingData.cpp" />
-    <ClCompile Include="Compass.cpp" />
     <ClCompile Include="ReflectanceArray.cpp" />
     <ClCompile Include="Sonar.cpp" />
     <ClCompile Include="ZStateCorridor.cpp" />
