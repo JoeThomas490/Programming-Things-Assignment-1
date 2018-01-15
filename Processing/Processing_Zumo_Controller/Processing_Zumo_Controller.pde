@@ -19,6 +19,8 @@ enum ZUMO_STATES
 
 ZUMO_STATES state;
 
+boolean flip;
+
 void setup() 
 {
     createGUI();
@@ -30,12 +32,25 @@ void setup()
   String portName = "COM8";
   
   myPort = new Serial(this, portName, 9600);
- 
+   flip = false;
 }
 
 void keyPressed() 
 {
   myPort.write(key);
+  
+  if(key == '1')
+  {
+    SwitchState(ZUMO_STATES.USER);
+  }
+  if(key == '2')
+  {
+    SwitchState(ZUMO_STATES.CORRIDOR);
+  }
+  if(key == '3')
+  {
+    flip = !flip;
+  }
 }
 
 void serialEvent(Serial xbee) 
@@ -100,7 +115,7 @@ void SwitchState(ZUMO_STATES newState)
   
   state = newState;
   
-  createGUI();
+  redraw();
   
 }
 
@@ -128,4 +143,5 @@ void ToggleStateChangeControls(boolean toggle)
 
 void draw() 
 {
+  btnStopForRoom.setVisible(flip);
 }
