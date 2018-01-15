@@ -87,7 +87,7 @@ void ZStateRoom::ScanRoom()
 	SPRINT(Finished scanning...);
 
 	//If we've hit more than once
-	if(hitCount > 0)
+	if(hitCount > 1)
 	{ 
 		//Get the pointer to the current corridor we're on
 		Corridor* corridor = m_pBuildingData->GetCurrentCorridor();

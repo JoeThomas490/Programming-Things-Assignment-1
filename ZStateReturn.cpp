@@ -62,7 +62,7 @@ void ZStateReturn::UpdateState()
 
 
 		//Get the direction that was turned to get into this corridor
-		DIRECTION endDirection = m_pBuildingData->GetCurrentCorridor()->m_eDirectionFromParent;
+		DIRECTION endDirection = m_pCurrentCorridor->m_eDirectionFromParent;
 		//If we turned left to get into this corridor
 		if (endDirection == DIRECTION::LEFT)
 		{
