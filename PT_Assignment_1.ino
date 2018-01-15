@@ -1,3 +1,4 @@
+
 #include <QTRSensors.h>
 #include <ZumoReflectanceSensorArray.h>
 #include <ZumoBuzzer.h>
@@ -11,6 +12,7 @@
 #include "ZStateUser.h"
 #include "ZStateCorridor.h"
 #include "ZStateReturn.h"
+#include "ZStateReturnSingle.h"
 
 #include "InputManager.h"
 #include "Motors.h"
@@ -125,10 +127,9 @@ void ChangeState(int mStateNum)
 {
 #if PRINT_STATE_CHANGES
 	Serial.print("\nChanging to state number : ");
-	Serial.print(mStateNum);
-	Serial.print("/");
+	Serial.println(mStateNum);
 #endif
-	switch ((ZState::ZUMO_STATES)mStateNum)
+	/*switch ((ZState::ZUMO_STATES)mStateNum)
 	{
 	case ZState::ZUMO_STATES::INIT:
 		DPRINT(INIT);
@@ -141,7 +142,7 @@ void ChangeState(int mStateNum)
 	case ZState::ZUMO_STATES::USER:
 		DPRINT(USER);
 		break;
-	}
+	}*/
 	if (m_pCurrentState == nullptr)
 	{
 		m_pCurrentState = m_aStateList[mStateNum];

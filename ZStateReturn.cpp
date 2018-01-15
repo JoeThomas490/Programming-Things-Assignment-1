@@ -37,6 +37,9 @@ void ZStateReturn::InitState()
 
 	//Get the current elapsed time of the program
 	m_fStartTime = millis();
+
+	//Turn the LED on pin 13 on
+	digitalWrite(13, HIGH);
 }
 
 //Virtual function for updating state (tick)
@@ -110,7 +113,8 @@ void ZStateReturn::UpdateState()
 
 void ZStateReturn::StopState()
 {
-	
+	//Turn the LED on pin 13 on
+	digitalWrite(13, LOW);
 }
 
 //Uses the reflectance array to check any wall collision

@@ -17,6 +17,7 @@ void ZStateUser::InitState()
 	//Make sure the state hasn't been finished
 	m_bStateFinished = false;
 	m_bWaitForDirection = false;
+	m_bWaitForReturnState = false;
 
 	m_eNextState = ZUMO_STATES::USER;
 }
@@ -25,12 +26,12 @@ void ZStateUser::InitState()
 void ZStateUser::UpdateState()
 {
 	//If we're not waiting for a direction (running normally)
-	if (!m_bWaitForDirection)
+	if (!m_bWaitForDirection && !m_bWaitForReturnState)
 	{
 		CheckMovementInput();
 		CheckStateChangeInput();
 	}
-	else
+	if (m_bWaitForDirection)
 	{
 		CheckDirectionInput();
 	}
@@ -126,7 +127,6 @@ void ZStateUser::CheckStateChangeInput()
 		m_bWaitForDirection = true;
 
 		//Notify user
-		//SPRINT(Room detected..);
 		SPRINT(Which direction ? [r]ight  [l]eft or [s]traight );
 	}
 
@@ -134,8 +134,6 @@ void ZStateUser::CheckStateChangeInput()
 	{
 		//Change the connected state to return behaviour (returns back down the corridor)
 		m_eNextState = ZUMO_STATES::RETURN;
-
-		//Set the state to be finished
 		m_bStateFinished = true;
 	}
 }

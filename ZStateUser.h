@@ -41,12 +41,18 @@ private:
 	void CheckStateChangeInput();
 	//Check key input to do with directional state change
 	void CheckDirectionInput();
+	//Check key input to do with return state change
+	void CheckReturnInput();
 
 private:
 
 	//Whether the state is waiting for direction
 	//when changing states
 	bool m_bWaitForDirection;
+
+	//Whether the state is waiting for which return
+	//state to be chosen
+	bool m_bWaitForReturnState;
 
 	//Reference to our motor class
 	MotorsClass m_motors;

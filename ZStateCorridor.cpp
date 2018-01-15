@@ -14,6 +14,9 @@ void ZStateCorridor::InitState()
 	//Make sure state isn't already finished
 	m_bStateFinished = false;
 
+	//Make sure state isn't waiting for state change input
+	m_bWaitForStateChange = false;
+
 	//Get reference to the reflectance array instance
 	m_reflectanceArray = ReflectanceArrayClass::GetReflectanceArrayInstance();
 
@@ -27,10 +30,18 @@ void ZStateCorridor::InitState()
 //Purely virtual function for updating state (tick)
 void ZStateCorridor::UpdateState()
 {
-	//Check any collisions with the wall
-	CheckWallCollision();
-	//Check for any specific user input
-	CheckUserInput();
+	if (!m_bWaitForStateChange)
+	{
+		//Check any collisions with the wall
+		CheckWallCollision();
+		//Check for any specific user input
+		CheckUserInput();
+	}
+	else
+	{
+		CheckStateChangeInput();
+	}
+	
 }
 
 //Purely virtual function for stopping state
@@ -62,28 +73,7 @@ void ZStateCorridor::CheckWallCollision()
 			{
 				//Get finishing time
 				m_fFinishTime = millis();
-				float currentCorridorTime = m_fFinishTime - m_fStartTime;
-				
-				float overallCorridorTime = currentCorridorTime;
-				//Get current corridor
-				Corridor* corridor = m_pBuildingData->GetCurrentCorridor();
-				for (int i = 0; i < corridor->m_iNumRooms; i++)
-				{
-					SPRINT(Adding);
-					Serial.print(" ");
-					Serial.print(corridor->GetRoom(i)->m_fTimeDownCorridor);
-					Serial.print(" onto corridor time");
-					overallCorridorTime += corridor->GetRoom(i)->m_fTimeDownCorridor;
-				}
-
-
-				//Set approximate time in building data
-				m_pBuildingData->GetCurrentCorridor()->m_fApproxLength = overallCorridorTime;
-
-				SPRINT(Approximate corridor time : );
-				Serial.print(overallCorridorTime/1000);
-				Serial.print(" for corridor : ");
-				Serial.print(m_pBuildingData->m_iCurrentCorridor);
+				CalculateCorridorLength();
 			}
 			
 		}
@@ -116,14 +106,64 @@ void ZStateCorridor::CheckUserInput()
 
 		//Get finishing time
 		m_fFinishTime = millis();
-		//Calculate overall time
-		float overallCorridorTime = m_fFinishTime - m_fStartTime;
-		//Set room time
-		m_pBuildingData->GetCurrentCorridor()->AddRoom(overallCorridorTime, DIRECTION::INVALID);
+		
+		//Trigger state to wait for key press
+		m_bWaitForStateChange = true;
 
-		//Move onto the USER state
+		SPRINT(Stopping corridor behaviour.);
+		SPRINT(new [c]orridor or new[r]oom ? );
+	}
+}
+
+//Checks for player input to change states
+void ZStateCorridor::CheckStateChangeInput()
+{
+	if (InputManagerClass::IsKeyPressed('c'))
+	{
+		//Calculate length of corridor and store it in current corridor
+		CalculateCorridorLength();
+
+		//Move into user state
 		m_eNextState = ZUMO_STATES::USER;
 		m_bStateFinished = true;
 	}
+	if (InputManagerClass::IsKeyPressed('r'))
+	{
+		//Calculate overall time
+		float overallTime = m_fFinishTime - m_fStartTime;
+		//Add a new room on this corridor, setting the time
+		m_pBuildingData->GetCurrentCorridor()->AddRoom(overallTime, DIRECTION::INVALID);
+
+		//Move into user state
+		m_eNextState = ZUMO_STATES::USER;
+		m_bStateFinished = true;
+	}
+}
+
+//Calculates the time in which it took to traverse a corridor
+void ZStateCorridor::CalculateCorridorLength()
+{
+	float currentCorridorTime = m_fFinishTime - m_fStartTime;
+
+	float overallCorridorTime = currentCorridorTime;
+
+	//Get current corridor
+	Corridor* corridor = m_pBuildingData->GetCurrentCorridor();
+	
+	//Loop through all rooms
+	for (int i = 0; i < corridor->m_iNumRooms; i++)
+	{
+		//Add the room time onto the overall time
+		overallCorridorTime += corridor->GetRoom(i)->m_fTimeDownCorridor;
+	}
+
+
+	//Set approximate time in building data
+	m_pBuildingData->GetCurrentCorridor()->m_fApproxLength = overallCorridorTime;
+
+	SPRINT(Approximate corridor time : );
+	Serial.print(overallCorridorTime / 1000);
+	Serial.print(" for corridor : ");
+	Serial.print(m_pBuildingData->m_iCurrentCorridor);
 }
 

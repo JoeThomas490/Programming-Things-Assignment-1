@@ -41,7 +41,12 @@ private:
 	//Checks for certain key input
 	void CheckUserInput();
 
+	//Checks for player input to change states
+	void CheckStateChangeInput();
 
+	//Calculates the time in which it took to traverse a
+	//corridor
+	void CalculateCorridorLength();
 private:
 
 	//Reference to our reflectance array class
@@ -52,6 +57,10 @@ private:
 	//Starting and finish times for traversing corridor
 	//(Used for building data)
 	float m_fStartTime, m_fFinishTime;
+
+	//Trigger to make state wait for state change user input
+	bool m_bWaitForStateChange;
+
 };
 
 #endif
