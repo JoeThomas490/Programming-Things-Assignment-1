@@ -106,7 +106,7 @@ void ZStateUser::CheckMovementInput()
 void ZStateUser::CheckStateChangeInput()
 {
 	//If the 'c' key is pressed
-	if (InputManagerClass::IsKeyPressed('c'))
+	if (InputManagerClass::IsKeyPressed('C'))
 	{
 		//Change the connected state to corridor behaviour
 		m_eNextState = ZUMO_STATES::CORRIDOR;
@@ -119,7 +119,7 @@ void ZStateUser::CheckStateChangeInput()
 
 	}
 	//If the 'r' key is pressed
-	if (InputManagerClass::IsKeyPressed('r'))
+	if (InputManagerClass::IsKeyPressed('R'))
 	{
 		//Change the connected state to corridor behaviour
 		m_eNextState = ZUMO_STATES::ROOM;

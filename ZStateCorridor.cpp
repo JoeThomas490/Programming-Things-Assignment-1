@@ -111,14 +111,14 @@ void ZStateCorridor::CheckUserInput()
 		m_bWaitForStateChange = true;
 
 		SPRINT(Stopping corridor behaviour.);
-		SPRINT(new [c]orridor or new[r]oom ? );
+		SPRINT(new [C]orridor or new[R]oom ? );
 	}
 }
 
 //Checks for player input to change states
 void ZStateCorridor::CheckStateChangeInput()
 {
-	if (InputManagerClass::IsKeyPressed('c'))
+	if (InputManagerClass::IsKeyPressed('C'))
 	{
 		//Calculate length of corridor and store it in current corridor
 		CalculateCorridorLength();
@@ -127,7 +127,7 @@ void ZStateCorridor::CheckStateChangeInput()
 		m_eNextState = ZUMO_STATES::USER;
 		m_bStateFinished = true;
 	}
-	if (InputManagerClass::IsKeyPressed('r'))
+	if (InputManagerClass::IsKeyPressed('R'))
 	{
 		//Calculate overall time
 		float overallTime = m_fFinishTime - m_fStartTime;
